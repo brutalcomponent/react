@@ -77,7 +77,7 @@
       "import": "./dist/components/core/index.mjs",
       "require": "./dist/components/core/index.js"
     },
-     "./editor": {
+    "./editor": {
       "import": "./dist/components/editor/index.mjs",
       "require": "./dist/components/editor/index.js",
       "types": "./dist/components/editor/index.d.ts"
