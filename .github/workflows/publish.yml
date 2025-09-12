@@ -4,16 +4,47 @@ on:
   push:
     tags:
       - "v*"
+      - "release(*)" # optional: also allow tags like release(0.1.2)
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write  # optional: npm provenance
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Show ref
+        run: |
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+
+      - name: Normalize version from tag
+        id: version
+        shell: bash
+        run: |
+          RAW="${GITHUB_REF_NAME}"
+          if [[ "$RAW" == v* ]]; then
+            VER="${RAW#v}"
+          elif [[ "$RAW" == release(*) ]]; then
+            VER="${RAW#release(}"; VER="${VER%)}"
+          else
+            echo "Unsupported tag: $RAW"; exit 1
+          fi
+
+          DISTTAG="latest"
+          case "$VER" in
+            *-dev* )   DISTTAG="dev" ;;
+            *-rc*  )   DISTTAG="rc" ;;
+            *-beta*)   DISTTAG="beta" ;;
+            *-alpha*)  DISTTAG="alpha" ;;
+          esac
+
+          echo "version=$VER"  >> $GITHUB_OUTPUT
+          echo "disttag=$DISTTAG" >> $GITHUB_OUTPUT
+          echo "Resolved version=$VER, dist-tag=$DISTTAG"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -22,39 +53,22 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           cache: "npm"
 
-      - name: Install dependencies
+      - name: Install
         run: npm ci
 
       - name: Build
         run: npm run build
 
-      - name: Determine dist-tag
-        id: tag
+      - name: Verify version matches tag
         run: |
-          TAG="${GITHUB_REF_NAME}"           # e.g. v0.2.0-dev or v0.2.0
-          VER="${TAG#v}"
-          DISTTAG="latest"
-
-          case "$VER" in
-            *-dev*)   DISTTAG="dev" ;;
-            *-rc*)    DISTTAG="rc" ;;
-            *-beta*)  DISTTAG="beta" ;;
-            *-alpha*) DISTTAG="alpha" ;;
-          esac
-
-          # Optional check: package.json version must match tag version (without v)
           PKG_VERSION=$(node -p "require('./package.json').version")
-          if [ "$PKG_VERSION" != "$VER" ]; then
-            echo "package.json version ($PKG_VERSION) does not match tag ($VER)"
+          TAG_VERSION="${{ steps.version.outputs.version }}"
+          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
+            echo "package.json ($PKG_VERSION) != tag ($TAG_VERSION)"
             exit 1
           fi
-
-          echo "version=$VER" >> $GITHUB_OUTPUT
-          echo "disttag=$DISTTAG" >> $GITHUB_OUTPUT
 
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "Publishing version ${{ steps.tag.outputs.version }} with dist-tag ${{ steps.tag.outputs.disttag }}"
-          npm publish --access public --tag "${{ steps.tag.outputs.disttag }}"
+        run: npm publish --access public --tag "${{ steps.version.outputs.disttag }}"

@@ -4,22 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       bump:
-        description: "Version bump type"
+        description: "Version bump"
         required: true
         default: "patch"
         type: choice
-        options:
-          - patch
-          - minor
-          - major
-          - prerelease
+        options: [patch, minor, major, prerelease]
       preid:
-        description: "Pre-release identifier (leave empty for stable). Example: dev, rc, beta"
+        description: "Pre-release id (dev, rc, beta, alpha)"
         required: false
         default: ""
         type: string
       explicitVersion:
-        description: "Explicit version (overrides bump/preid). Example: 0.2.0-dev"
+        description: "Override version (e.g. 0.2.0-dev)"
         required: false
         default: ""
         type: string
@@ -35,17 +31,16 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Configure Git
+      - name: Git user
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-      - name: Install dependencies
+      - name: Install
         run: npm ci
 
       - name: Build
@@ -59,43 +54,35 @@ jobs:
           EXPLICIT="${{ github.event.inputs.explicitVersion }}"
 
           if [ -n "$EXPLICIT" ]; then
-            # Use explicit version as-is (e.g., 0.2.0-dev)
             NEXT="$EXPLICIT"
             echo "strategy=explicit" >> $GITHUB_OUTPUT
           else
             if [ "$BUMP" = "prerelease" ]; then
-              # npm version prerelease requires an existing pre-release or will do x.y.z-0 → with preid yields x.y.z-preid.0+
               if [ -z "$PREID" ]; then
-                echo "ERROR: prerelease bump requires 'preid' (e.g., dev, rc, beta)"
-                exit 1
+                echo "prerelease bump requires 'preid'"; exit 1
               fi
               npm version prerelease --preid="$PREID" -m "chore(release): v%s" > /dev/null 2>&1 || true
               NEXT=$(node -p "require('./package.json').version")
               echo "strategy=prerelease" >> $GITHUB_OUTPUT
             else
-              # stable bumps (patch/minor/major)
               npm version "$BUMP" -m "chore(release): v%s" > /dev/null 2>&1 || true
               NEXT=$(node -p "require('./package.json').version")
               echo "strategy=$BUMP" >> $GITHUB_OUTPUT
             fi
           fi
 
-          # Sanity check NEXT
           if [ -z "$NEXT" ]; then
-            echo "ERROR: Could not compute next version"
-            exit 1
+            echo "No version computed"; exit 1
           fi
-
-          # Write NEXT for next steps
-          echo "next=${NEXT}" >> $GITHUB_OUTPUT
+          echo "next=$NEXT" >> $GITHUB_OUTPUT
 
       - name: Tag and push
         run: |
           NEXT="${{ steps.v.outputs.next }}"
           TAG="v$NEXT"
-          # If explicit strategy was used, ensure package.json version matches NEXT
+
           if [ "${{ steps.v.outputs.strategy }}" = "explicit" ]; then
-            node -e "const fs=require('fs'); const pkg=require('./package.json'); pkg.version='${NEXT}'; fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));"
+            node -e "const fs=require('fs'); const p=require('./package.json'); p.version='${NEXT}'; fs.writeFileSync('package.json', JSON.stringify(p,null,2));"
             git add package.json
             git commit -m "chore(release): v${NEXT}" || true
           fi
