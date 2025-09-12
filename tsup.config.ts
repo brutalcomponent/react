@@ -22,8 +22,10 @@ export default defineConfig({
 
         // Core and shared component barrels
         "src/components/core/index.ts",
-        "src/components/motion/index.ts",
         "src/components/patterns/index.ts",
+        "src/components/charts/index.ts",
+        "src/components/forms/index.ts",
+        "src/components/navigation/index.ts",
 
         // Hooks, providers, utils, types
         "src/hooks/index.ts",

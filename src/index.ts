@@ -9,11 +9,9 @@
  * @description
  * Main entry point for @brutalcomponent/react.
  */
+
 // Core components (building blocks)
 export * from "./components/core";
-
-// Optional motion components for animation
-export * from "./components/motion";
 
 // Reusable component patterns
 export * from "./components/patterns";
