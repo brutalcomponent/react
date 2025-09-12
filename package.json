@@ -1,0 +1,143 @@
+{
+  "name": "@brutalcomponent/react",
+  "version": "0.1.0",
+  "description": "Brutalist React components",
+  "author": "David (https://dvh.sh)",
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/brutalcomponent-react",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/brutalcomponent-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/brutalcomponent-react/issues"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "brutal",
+    "brutalist",
+    "neo-brutalist",
+    "ui",
+    "design-system",
+    "typescript"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "tailwind-preset.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "test": "echo \"No tests yet\"",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "release": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-icons": ">=4.0.0",
+    "tailwindcss": ">=3.0.0"
+  },
+  "dependencies": {
+    "@catppuccin/palette": "^1.7.1",
+    "clsx": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
+    "tailwindcss": "^3.4.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/components/core/index.d.ts",
+      "import": "./dist/components/core/index.mjs",
+      "require": "./dist/components/core/index.js"
+    },
+     "./editor": {
+      "import": "./dist/components/editor/index.mjs",
+      "require": "./dist/components/editor/index.js",
+      "types": "./dist/components/editor/index.d.ts"
+    },
+    "./forms": {
+      "types": "./dist/components/forms/index.d.ts",
+      "import": "./dist/components/forms/index.mjs",
+      "require": "./dist/components/forms/index.js"
+    },
+    "./blog": {
+      "types": "./dist/components/blog/index.d.ts",
+      "import": "./dist/components/blog/index.mjs",
+      "require": "./dist/components/blog/index.js"
+    },
+    "./navigation": {
+      "types": "./dist/components/navigation/index.d.ts",
+      "import": "./dist/components/navigation/index.mjs",
+      "require": "./dist/components/navigation/index.js"
+    },
+    "./content": {
+      "types": "./dist/components/content/index.d.ts",
+      "import": "./dist/components/content/index.mjs",
+      "require": "./dist/components/content/index.js"
+    },
+    "./charts": {
+      "import": "./dist/components/charts/index.mjs",
+      "require": "./dist/components/charts/index.js",
+      "types": "./dist/components/charts/index.d.ts"
+    },
+    "./legal": {
+      "types": "./dist/components/legal/index.d.ts",
+      "import": "./dist/components/legal/index.mjs",
+      "require": "./dist/components/legal/index.js"
+    },
+    "./commerce": {
+      "types": "./dist/components/commerce/index.d.ts",
+      "import": "./dist/components/commerce/index.mjs",
+      "require": "./dist/components/commerce/index.js"
+    },
+    "./auth": {
+      "types": "./dist/components/auth/index.d.ts",
+      "import": "./dist/components/auth/index.mjs",
+      "require": "./dist/components/auth/index.js"
+    },
+    "./motion": {
+      "types": "./dist/components/motion/index.d.ts",
+      "import": "./dist/components/motion/index.mjs",
+      "require": "./dist/components/motion/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.mjs",
+      "require": "./dist/hooks/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.mjs",
+      "require": "./dist/utils/index.js"
+    },
+    "./tailwind-preset": "./tailwind-preset.js",
+    "./styles": "./dist/styles.css"
+  }
+}
