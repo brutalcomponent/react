@@ -18,6 +18,7 @@ npm install @brutalcomponent/react tailwindcss
 ## Setup
 
 Add to your tailwind.config.(js|ts):
+
 ```ts
 /* ESM (Tailwind v4, recommended) */
 import brutalPreset from "@brutalcomponent/react/tailwind-preset";
