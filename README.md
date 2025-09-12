@@ -18,7 +18,7 @@ npm install @brutalcomponent/react tailwindcss
 ## Setup
 
 Add to your tailwind.config.(js|ts):
-
+```ts
 /* ESM (Tailwind v4, recommended) */
 import brutalPreset from "@brutalcomponent/react/tailwind-preset";
 /** @type {import('tailwindcss').Config} */
@@ -44,11 +44,13 @@ module.exports = {
     "./node_modules/@brutalcomponent/react/dist/**/*.{js,mjs}"
   ]
 };
+```
 
 ## File Structure
 
 > This visual is incomplete, and it's purpose is to serve as an example.
 
+```
 @brutalcomponent/react/
 ├─ package.json
 ├─ tsconfig.json
@@ -109,10 +111,10 @@ module.exports = {
    └─ types/
       ├─ index.ts
       └─ common.types.ts
-
+```
 
 ## Basic Usage
-
+```tsx
 import { Button, Card, Heading } from "@brutalcomponent/react";
 
 function App() {
@@ -127,9 +129,9 @@ function App() {
     </Card>
   );
 }
-
+```
 ## Tree-shaking and Subpath Imports
-
+```tsx
 // Core (root or core both tree-shakeable)
 import { Button } from "@brutalcomponent/react";
 import { Card } from "@brutalcomponent/react/core";
@@ -138,7 +140,7 @@ import { Card } from "@brutalcomponent/react/core";
 import { BlogCard } from "@brutalcomponent/react/blog";
 import { ProductCard } from "@brutalcomponent/react/commerce";
 import { PrivacyPolicy } from "@brutalcomponent/react/legal";
-
+```
 ## Hooks
 
 -  useClipboard — Copy to clipboard with feedback
@@ -163,26 +165,26 @@ import { PrivacyPolicy } from "@brutalcomponent/react/legal";
 
 Monochrome core palette with soft pastel accents. Tokens are exposed via Tailwind preset (recommended).  
 If you need raw CSS variables, the preset provides:
-
+```css
 --brutal-white, --brutal-black, --brutal-gray-50 … --brutal-gray-900  
 --brutal-pink, --brutal-peach, --brutal-yellow, --brutal-mint, --brutal-sky, --brutal-lavender, --brutal-coral
-
+```
 ## Icons
 
 We use react-icons for flexibility:
-
+```tsx
 import { Button } from "@brutalcomponent/react";
 import { FaRocket } from "react-icons/fa";
 
 <Button leftIcon={FaRocket}>Launch</Button>;
-
+```
 ## TypeScript
 
 Full TypeScript support with exported types:
-
+```tsx
 import type { ButtonProps, CardProps } from "@brutalcomponent/react";
 const MyButton: React.FC<ButtonProps> = (props) => <Button {...props} />;
-
+```
 ## Accessibility
 
 All components follow WCAG 2.1 guidelines:

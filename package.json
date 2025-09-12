@@ -1,16 +1,16 @@
 {
   "name": "@brutalcomponent/react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Brutalist React components",
-  "author": "David (https://dvh.sh)",
+  "author": "David Heffler (https://dvh.sh)",
   "license": "MIT",
-  "homepage": "https://github.com/yourusername/brutalcomponent-react",
+  "homepage": "https://github.com/brutalcomponent/react",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/brutalcomponent-react.git"
+    "url": "git+https://github.com/brutalcomponent/react.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/brutalcomponent-react/issues"
+    "url": "https://github.com/brutalcomponent/react/issues"
   },
   "keywords": [
     "react",
