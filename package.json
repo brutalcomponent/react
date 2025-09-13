@@ -1,6 +1,6 @@
 {
   "name": "@brutalcomponent/react",
-  "version": "0.1.5-test.1",
+  "version": "0.1.5-test.2",
   "description": "Brutalist React components",
   "author": "David Heffler (https://dvh.sh)",
   "license": "MIT",
@@ -67,6 +67,8 @@
     "typescript": "^5.3.0"
   },
   "exports": {
+   "./tailwind-preset": "./tailwind-preset.js",
+    "./styles": "./dist/styles.css",
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
@@ -83,9 +85,9 @@
       "require": "./dist/components/patterns/index.js"
     },
     "./editor": {
+      "types": "./dist/modules/editor/index.d.ts",
       "import": "./dist/modules/editor/index.mjs",
-      "require": "./dist/modules/editor/index.js",
-      "types": "./dist/modules/editor/index.d.ts"
+      "require": "./dist/modules/editor/index.js"
     },
     "./forms": {
       "types": "./dist/components/forms/index.d.ts",
@@ -108,9 +110,9 @@
       "require": "./dist/components/content/index.js"
     },
     "./charts": {
+      "types": "./dist/components/charts/index.d.ts",
       "import": "./dist/components/charts/index.mjs",
-      "require": "./dist/components/charts/index.js",
-      "types": "./dist/components/charts/index.d.ts"
+      "require": "./dist/components/charts/index.js"
     },
     "./legal": {
       "types": "./dist/modules/legal/index.d.ts",
@@ -136,8 +138,6 @@
       "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.mjs",
       "require": "./dist/utils/index.js"
-    },
-    "./tailwind-preset": "./tailwind-preset.js",
-    "./styles": "./dist/styles.css"
+    }
   }
 }

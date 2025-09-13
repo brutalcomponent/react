@@ -15,7 +15,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { Icon } from "../Icon";
 import { Badge } from "../Badge";
 
-import { getAccentClasses } from "@/utils/cn.utils";
+import { getAccentClasses } from "../../../utils";
 
 export interface PositionCardProps {
   company: string;
