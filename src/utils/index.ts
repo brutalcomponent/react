@@ -4,7 +4,7 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Utilities barrel export
@@ -55,7 +55,7 @@ export {
 } from "./format.utils";
 
 // Classname utilities
-export { cn, getAccentClasses, getBrutalClasses } from "./cn.utils";
+export * from "./cn.utils";
 
 // Tech utilities
 export {

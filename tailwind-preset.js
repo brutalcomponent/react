@@ -4,10 +4,10 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Thu Sep 11 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * Brutal component Tailwind preset - just add to your config!
+ * Universal Brutal component Tailwind preset
  */
 module.exports = {
     theme: {
@@ -15,12 +15,15 @@ module.exports = {
             fontFamily: {
                 sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
                 mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'monospace'],
-                brutal: ['JetBrains Mono', 'monospace'], // Alias for brutal typography
+                brutal: ['JetBrains Mono', 'monospace'],
             },
             colors: {
-                // Monochrome
-                'brutal-black': '#000000',
-                'brutal-white': '#FFFFFF',
+                // CSS Variable support for theming
+                'brutal-accent': 'var(--brutal-accent, #FFD6E8)',
+                'brutal-white': 'var(--brutal-white, #FFFFFF)',
+                'brutal-black': 'var(--brutal-black, #000000)',
+                
+                // Gray scale
                 'brutal-gray': {
                     50: '#FAFAFA',
                     100: '#F5F5F5',
@@ -33,7 +36,8 @@ module.exports = {
                     800: '#262626',
                     900: '#171717',
                 },
-                // Soft pastels
+                
+                // Brutal accent colors
                 'brutal-pink': '#FFD6E8',
                 'brutal-peach': '#FFE5D6',
                 'brutal-yellow': '#FFF3D6',
@@ -56,6 +60,7 @@ module.exports = {
                 'wave': 'wave 2s ease-in-out infinite',
                 'slide-in-right': 'slide-in-right 0.3s ease-out',
                 'scale-in': 'scale-in 0.2s ease-out',
+                'fade-in': 'fade-in 0.3s ease-out',
             },
             keyframes: {
                 'brutal-bounce': {
@@ -88,6 +93,23 @@ module.exports = {
                     from: { opacity: '0', transform: 'translateY(-5px)' },
                     to: { opacity: '1', transform: 'translateY(0)' },
                 },
+            },
+            borderWidth: {
+                '3': '3px',
+                '5': '5px',
+                '6': '6px',
+                '8': '8px',
+            },
+            rotate: {
+                '1': '1deg',
+                '2': '2deg',
+                '3': '3deg',
+                '-1': '-1deg',
+                '-2': '-2deg',
+                '-3': '-3deg',
+            },
+            scale: {
+                '102': '1.02',
             },
         },
     },

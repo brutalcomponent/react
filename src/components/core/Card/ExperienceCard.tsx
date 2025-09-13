@@ -4,7 +4,7 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Experience/work history card with keyword highlighting and duration display
@@ -15,6 +15,7 @@ import { FaBriefcase, FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { Icon } from "../Icon";
 import { emphasizeText } from "../../../utils/text.utils";
 import { formatDuration, parseLooseDate } from "../../../utils/date.utils";
+import { getAccentClasses, brutalBase, cn } from "../../../utils/cn.utils";
 
 export interface ExperienceCardProps {
   title: string;
@@ -53,6 +54,9 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
     endDate ? parseLooseDate(endDate) : null,
   );
 
+  // Get accent classes
+  const accent = getAccentClasses(accentColor);
+
   // Highlight keywords
   const highlightedDescription = description
     ? emphasizeText(description, keywords)
@@ -63,31 +67,46 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
 
   return (
     <div
-      className={clsx(
-        "relative p-6",
-        brutal
-          ? "bg-brutal-white border-4 border-brutal-black shadow-brutal"
-          : "bg-brutal-white border border-brutal-gray-300 shadow-md",
-        brutal && "hover:shadow-brutal-md hover:-translate-y-0.5",
-        "transition-all duration-300",
-        brutal && "hover:rotate-0",
-        brutal && "transform -rotate-1",
+      className={cn(
+        // Base styling
+        "relative p-6 overflow-hidden",
+        
+        // Brutal styling
+        brutal ? [
+          brutalBase.surface,
+          brutalBase.border,
+          brutalBase.shadow,
+          brutalBase.skew,
+          brutalBase.hover,
+          brutalBase.transition,
+          // Accent border
+          "border-l-8",
+          accent.borderLeft,
+        ] : [
+          brutalBase.surface,
+          "border border-brutal-gray-300 shadow-md",
+          "hover:shadow-lg",
+          brutalBase.transition,
+        ],
+        
         className,
       )}
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-4">
-        <div>
+        <div className={brutal ? "transform skew-x-2" : ""}>
           <h3
-            className={clsx(
-              "text-2xl font-black uppercase tracking-wider",
-              `text-${accentColor}`,
+            className={cn(
+              "text-2xl font-black uppercase tracking-wider mb-1",
+              accent.text,
               brutal && "transform -skew-x-3",
             )}
           >
             {title}
           </h3>
-          <p className="text-lg font-bold mt-1">{company}</p>
+          <p className="text-lg font-bold text-brutal-gray-700">
+            {company}
+          </p>
         </div>
 
         {variant !== "compact" && (
@@ -99,10 +118,11 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
               </span>
             </div>
             <span
-              className={clsx(
+              className={cn(
                 "inline-block text-xs font-black uppercase tracking-wider mt-1 px-2 py-1",
                 "bg-brutal-gray-100 border-2 border-brutal-black",
-                `text-${accentColor}`,
+                accent.text,
+                brutal && "transform rotate-1",
               )}
             >
               {duration}
@@ -136,7 +156,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             segment.bold ? (
               <strong
                 key={idx}
-                className={clsx("font-black", `text-${accentColor}`)}
+                className={cn("font-black", accent.text)}
               >
                 {segment.text}
               </strong>
@@ -153,9 +173,9 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
           {highlightedBullets?.map((bulletSegments, idx) => (
             <li key={idx} className="flex text-sm text-brutal-gray-700">
               <span
-                className={clsx(
+                className={cn(
                   "font-black mr-2 flex-shrink-0",
-                  `text-${accentColor}`,
+                  accent.text,
                 )}
               >
                 →
@@ -165,7 +185,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
                   segment.bold ? (
                     <strong
                       key={segIdx}
-                      className={clsx("font-black", `text-${accentColor}`)}
+                      className={cn("font-black", accent.text)}
                     >
                       {segment.text}
                     </strong>
@@ -177,6 +197,11 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             </li>
           ))}
         </ul>
+      )}
+
+      {/* Inner decoration for extra brutal effect */}
+      {brutal && (
+        <div className="pointer-events-none absolute inset-2 border-2 border-brutal-black opacity-10" />
       )}
     </div>
   );
