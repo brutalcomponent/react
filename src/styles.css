@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 @layer utilities {
+    /* Transforms */
+.-skew-x-2 { transform: skewX(-2deg) !important; }
+.skew-x-2 { transform: skewX(2deg) !important; }
+.hover\:skew-x-0:hover { transform: skewX(0deg) !important; }
+
   /* Shadows */
   .shadow-brutal-sm { box-shadow: 2px 2px 0px 0px rgba(0,0,0,1) !important; }
   .shadow-brutal { box-shadow: 4px 4px 0px 0px rgba(0,0,0,1) !important; }
@@ -18,6 +23,7 @@
   .text-brutal-coral { color: #FFD6D6 !important; }
 
   /* Background colors */
+  .bg-brutal-surface0 { background-color: #F5F5F5 !important; } /* Match ctp-surface0 */
   .bg-brutal-pink { background-color: #FFD6E8 !important; }
   .bg-brutal-peach { background-color: #FFE5D6 !important; }
   .bg-brutal-yellow { background-color: #FFF3D6 !important; }
