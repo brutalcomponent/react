@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
 @layer utilities {
+  /* Shadows */
+  .shadow-brutal-sm { box-shadow: 2px 2px 0px 0px rgba(0,0,0,1) !important; }
+  .shadow-brutal { box-shadow: 4px 4px 0px 0px rgba(0,0,0,1) !important; }
+  .shadow-brutal-md { box-shadow: 6px 6px 0px 0px rgba(0,0,0,1) !important; }
+  .shadow-brutal-lg { box-shadow: 8px 8px 0px 0px rgba(0,0,0,1) !important; }
+  .shadow-brutal-xl { box-shadow: 12px 12px 0px 0px rgba(0,0,0,1) !important; }
+
   /* Text colors */
   .text-brutal-pink { color: #FFD6E8 !important; }
   .text-brutal-peach { color: #FFE5D6 !important; }
