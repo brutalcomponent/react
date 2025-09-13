@@ -1,17 +1,23 @@
 @import "tailwindcss";
 
 @layer utilities {
-    /* Transforms */
-.-skew-x-2 { transform: skewX(-2deg) !important; }
-.skew-x-2 { transform: skewX(2deg) !important; }
-.hover\:skew-x-0:hover { transform: skewX(0deg) !important; }
-
   /* Shadows */
   .shadow-brutal-sm { box-shadow: 2px 2px 0px 0px rgba(0,0,0,1) !important; }
   .shadow-brutal { box-shadow: 4px 4px 0px 0px rgba(0,0,0,1) !important; }
   .shadow-brutal-md { box-shadow: 6px 6px 0px 0px rgba(0,0,0,1) !important; }
   .shadow-brutal-lg { box-shadow: 8px 8px 0px 0px rgba(0,0,0,1) !important; }
   .shadow-brutal-xl { box-shadow: 12px 12px 0px 0px rgba(0,0,0,1) !important; }
+
+  /* Transform classes */
+  .-skew-x-2 { transform: skewX(-2deg) !important; }
+  .skew-x-2 { transform: skewX(2deg) !important; }
+  .-skew-x-3 { transform: skewX(-3deg) !important; }
+  .-skew-x-6 { transform: skewX(-6deg) !important; }
+  .hover\:skew-x-0:hover { transform: skewX(0deg) !important; }
+  
+  /* Surface colors to match ctp-surface0 */
+  .bg-brutal-surface0 { background-color: #F5F5F5 !important; }
+  .bg-brutal-surface1 { background-color: #EEEEEE !important; }
 
   /* Text colors */
   .text-brutal-pink { color: #FFD6E8 !important; }
@@ -23,7 +29,6 @@
   .text-brutal-coral { color: #FFD6D6 !important; }
 
   /* Background colors */
-  .bg-brutal-surface0 { background-color: #F5F5F5 !important; } /* Match ctp-surface0 */
   .bg-brutal-pink { background-color: #FFD6E8 !important; }
   .bg-brutal-peach { background-color: #FFE5D6 !important; }
   .bg-brutal-yellow { background-color: #FFF3D6 !important; }
@@ -49,4 +54,9 @@
   .border-l-brutal-sky { border-left-color: #D6EDFF !important; }
   .border-l-brutal-lavender { border-left-color: #E8D6FF !important; }
   .border-l-brutal-coral { border-left-color: #FFD6D6 !important; }
+
+  /* Accent variable support */
+  .text-accent { color: var(--accent-color, #FFD6E8) !important; }
+  .bg-accent { background-color: var(--accent-color, #FFD6E8) !important; }
+  .border-accent { border-color: var(--accent-color, #FFD6E8) !important; }
 }
