@@ -55,7 +55,7 @@ export {
 } from "./format.utils";
 
 // Classname utilities
-export { cn } from "./cn.utils";
+export { cn, getAccentClasses, getBrutalClasses } from "./cn.utils";
 
 // Tech utilities
 export {
