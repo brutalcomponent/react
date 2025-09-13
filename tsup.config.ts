@@ -19,6 +19,7 @@ export default defineConfig({
     entry: [
         // Root entry
         "src/index.ts",
+        "src/styles.css",
 
         // Core and shared component barrels
         "src/components/core/index.ts",

@@ -15,6 +15,8 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { Icon } from "../Icon";
 import { Badge } from "../Badge";
 
+import { getAccentClasses } from "@/utils/cn.utils";
+
 export interface PositionCardProps {
   company: string;
   position: string;
@@ -44,6 +46,9 @@ export const PositionCard: React.FC<PositionCardProps> = ({
   accentColor = "brutal-pink",
   className,
 }) => {
+
+  const accentClasses = getAccentClasses(accentColor);
+
   return (
     <div
       className={clsx(
@@ -52,13 +57,13 @@ export const PositionCard: React.FC<PositionCardProps> = ({
           "bg-brutal-white shadow-brutal",
           "transform -skew-x-2 border-l-4",
           "border-t-4 border-r-4 border-b-4 border-brutal-black",
-          `border-l-8 border-l-${accentColor}`,
+          `border-l-8 border-l-${accentClasses.borderLeft}`,
           "hover:shadow-brutal-md hover:skew-x-0 hover:scale-[1.01]",
         ],
         !brutal && [
           "bg-brutal-white shadow-md",
           "border border-brutal-gray-300",
-          `border-l-4 border-l-${accentColor}`,
+          `border-l-4 border-l-${accentClasses.borderLeft}`,
         ],
         className,
       )}
@@ -69,7 +74,7 @@ export const PositionCard: React.FC<PositionCardProps> = ({
           <h3
             className={clsx(
               "text-3xl font-bold mb-1 uppercase tracking-wide",
-              `text-${accentColor}`,
+              `text-${accentClasses.text}`,
             )}
           >
             {company}

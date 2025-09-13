@@ -1,6 +1,6 @@
 {
   "name": "@brutalcomponent/react",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Brutalist React components",
   "author": "David Heffler (https://dvh.sh)",
   "license": "MIT",
@@ -77,10 +77,15 @@
       "import": "./dist/components/core/index.mjs",
       "require": "./dist/components/core/index.js"
     },
+    "./patterns": {
+      "types": "./dist/components/patterns/index.d.ts",
+      "import": "./dist/components/patterns/index.mjs",
+      "require": "./dist/components/patterns/index.js"
+    },
     "./editor": {
-      "import": "./dist/components/editor/index.mjs",
-      "require": "./dist/components/editor/index.js",
-      "types": "./dist/components/editor/index.d.ts"
+      "import": "./dist/modules/editor/index.mjs",
+      "require": "./dist/modules/editor/index.js",
+      "types": "./dist/modules/editor/index.d.ts"
     },
     "./forms": {
       "types": "./dist/components/forms/index.d.ts",
@@ -88,9 +93,9 @@
       "require": "./dist/components/forms/index.js"
     },
     "./blog": {
-      "types": "./dist/components/blog/index.d.ts",
-      "import": "./dist/components/blog/index.mjs",
-      "require": "./dist/components/blog/index.js"
+      "types": "./dist/modules/blog/index.d.ts",
+      "import": "./dist/modules/blog/index.mjs",
+      "require": "./dist/modules/blog/index.js"
     },
     "./navigation": {
       "types": "./dist/components/navigation/index.d.ts",
@@ -108,24 +113,19 @@
       "types": "./dist/components/charts/index.d.ts"
     },
     "./legal": {
-      "types": "./dist/components/legal/index.d.ts",
-      "import": "./dist/components/legal/index.mjs",
-      "require": "./dist/components/legal/index.js"
+      "types": "./dist/modules/legal/index.d.ts",
+      "import": "./dist/modules/legal/index.mjs",
+      "require": "./dist/modules/legal/index.js"
     },
     "./commerce": {
-      "types": "./dist/components/commerce/index.d.ts",
-      "import": "./dist/components/commerce/index.mjs",
-      "require": "./dist/components/commerce/index.js"
+      "types": "./dist/modules/commerce/index.d.ts",
+      "import": "./dist/modules/commerce/index.mjs",
+      "require": "./dist/modules/commerce/index.js"
     },
     "./auth": {
-      "types": "./dist/components/auth/index.d.ts",
-      "import": "./dist/components/auth/index.mjs",
-      "require": "./dist/components/auth/index.js"
-    },
-    "./motion": {
-      "types": "./dist/components/motion/index.d.ts",
-      "import": "./dist/components/motion/index.mjs",
-      "require": "./dist/components/motion/index.js"
+      "types": "./dist/modules/auth/index.d.ts",
+      "import": "./dist/modules/auth/index.mjs",
+      "require": "./dist/modules/auth/index.js"
     },
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",
