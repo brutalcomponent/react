@@ -9,6 +9,7 @@
  * @description
  * Hook for detecting clicks outside an element
  */
+"use client";
 import { useEffect, useRef, RefObject } from "react";
 
 export function useClickOutside<T extends HTMLElement = HTMLElement>(

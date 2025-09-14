@@ -299,14 +299,6 @@ export const ButtonLink: React.FC<Omit<LinkProps, "variant">> = (props) => (
 );
 
 /**
- * @component NavLink
- * @description Link component for navigation menus
- */
-export const NavLink: React.FC<Omit<LinkProps, "variant">> = (props) => (
-  <Link {...props} variant="nav" />
-);
-
-/**
  * @component BrutalLink
  * @description Link with extreme brutal styling
  */

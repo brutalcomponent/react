@@ -9,6 +9,7 @@
  * @description
  * Hook for persisting state in localStorage
  */
+"use client";
 import { useState, useEffect, useCallback } from "react";
 
 export function useLocalStorage<T>(

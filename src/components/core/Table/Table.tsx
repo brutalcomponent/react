@@ -8,7 +8,9 @@
  *
  * @description
  * Brutal table component for data display with sorting, pagination, and filtering
+ * @client
  */
+"use client";
 import React, { useState, useMemo } from "react";
 import {
   FaSort,

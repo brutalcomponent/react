@@ -9,6 +9,7 @@
  * @description
  * Hook for trapping focus within an element (useful for modals)
  */
+"use client";
 import { useEffect, useRef } from "react";
 
 export function useFocusTrap(enabled: boolean = true) {

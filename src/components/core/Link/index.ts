@@ -9,7 +9,7 @@
  * @description
  * Link components barrel export with Next.js support
  */
-export { Link, ExternalLink, ButtonLink, NavLink, BrutalLink } from "./Link";
+export { Link, ExternalLink, ButtonLink, BrutalLink } from "./Link";
 export { NextLink, createNextLink } from "./NextLink";
 export { LinkSkeleton, LinkGroupSkeleton } from "./LinkSkeleton";
 

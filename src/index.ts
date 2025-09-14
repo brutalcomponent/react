@@ -16,6 +16,9 @@ export * from "./components/core";
 // Reusable component patterns
 export * from "./components/patterns";
 
+// Navigation components
+export * from "./components/navigation";
+
 // Hooks for component logic
 export * from "./hooks";
 

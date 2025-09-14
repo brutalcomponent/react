@@ -8,7 +8,10 @@
  *
  * @description
  * Brutal input field with optional icons, validation, and multiple variants
+ * @client
  */
+"use client";
+
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Icon } from "../Icon";

@@ -48,3 +48,6 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     </svg>
   );
 };
+
+// Export the type as well
+export type { LoadingSpinnerProps } from "./types";

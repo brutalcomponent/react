@@ -19,42 +19,47 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
   className,
   direction = "horizontal",
   attached = true,
-}) => (
-  <div
-    className={clsx(
-      "inline-flex",
-      direction === "horizontal"
-        ? attached
-          ? "-space-x-px"
-          : "gap-2"
-        : "flex-col",
-      direction === "vertical" && (attached ? "-space-y-px" : "gap-2"),
-      className,
-    )}
-  >
-    {React.Children.map(children, (child, index) => {
-      if (React.isValidElement(child) && child.type === Button) {
-        const childCount = React.Children.count(children);
+}) => {
+  const childrenArray = React.Children.toArray(children);
+  
+  return (
+    <div
+      className={clsx(
+        "inline-flex",
+        direction === "horizontal"
+          ? attached
+            ? "-space-x-px"
+            : "gap-2"
+          : "flex-col",
+        direction === "vertical" && (attached ? "-space-y-px" : "gap-2"),
+        className,
+      )}
+    >
+      {childrenArray.map((child, index) => {
+        if (React.isValidElement(child) && child.type === Button) {
+          const childCount = childrenArray.length;
 
-        if (!attached) return child;
+          if (!attached) return child;
 
-        return React.cloneElement(child, {
-          className: clsx(
-            child.props.className,
-            direction === "horizontal" && [
-              index === 0 && "rounded-r-none",
-              index === childCount - 1 && "rounded-l-none",
-              index !== 0 && index !== childCount - 1 && "rounded-none",
-            ],
-            direction === "vertical" && [
-              index === 0 && "rounded-b-none",
-              index === childCount - 1 && "rounded-t-none",
-              index !== 0 && index !== childCount - 1 && "rounded-none",
-            ],
-          ),
-        });
-      }
-      return child;
-    })}
-  </div>
-);
+          return React.cloneElement(child, {
+            key: child.key || index,
+            className: clsx(
+              child.props.className,
+              direction === "horizontal" && [
+                index === 0 && "rounded-r-none",
+                index === childCount - 1 && "rounded-l-none",
+                index !== 0 && index !== childCount - 1 && "rounded-none",
+              ],
+              direction === "vertical" && [
+                index === 0 && "rounded-b-none",
+                index === childCount - 1 && "rounded-t-none",
+                index !== 0 && index !== childCount - 1 && "rounded-none",
+              ],
+            ),
+          });
+        }
+        return child;
+      })}
+    </div>
+  );
+};

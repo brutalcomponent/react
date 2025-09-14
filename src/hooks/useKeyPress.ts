@@ -9,6 +9,7 @@
  * @description
  * Hook for handling keyboard shortcuts
  */
+"use client";
 import { useEffect, useCallback, useRef } from "react";
 
 export interface UseKeyPressOptions {

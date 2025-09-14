@@ -8,7 +8,10 @@
  *
  * @description
  * Brutal select dropdown with enhanced styling and functionality
+ * @client
  */
+
+"use client";
 import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { Icon } from "../Icon";

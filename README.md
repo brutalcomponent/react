@@ -1,202 +1,156 @@
 # @brutalcomponent/react
 
-Brutalist React components
+[![npm version](https://badge.fury.io/js/%40brutalcomponent%2Freact.svg)](https://badge.fury.io/js/%40brutalcomponent%2Freact)
 
-## Philosophy
+A collection of sharp, unapologetic React components for projects that make a statement.
 
--  **Brutal by default** - Sharp edges, bold borders, harsh shadows  
--  **Mobile first** - Every component works on phones  
--  **Accessible** - Proper ARIA labels, keyboard navigation  
--  **Tree-shakeable** - Import only what you need  
--  **TypeScript first** - Full type safety, great DX  
--  **Flexible** - Components, not layouts. Build what you want.
+## Core Concepts
 
-## Installation
+-   **Brutal by Default:** Sharp edges, bold borders, and hard shadows are the standard, not the exception.
+-   **Fully Typed:** Built with TypeScript from the ground up for a great developer experience.
+-   **Accessible:** Keyboard navigation, ARIA attributes, and focus management are built-in.
+-   **Tree-Shakeable:** Import only what you need. The library supports subpath imports for granular control.
+-   **Flexible:** A core set of primitives (`Card`, `Button`) and feature-specific modules (`auth`, `blog`) to build what you want.
 
+---
+
+## Quick Start
+
+### 1. Installation
+
+```bash
 npm install @brutalcomponent/react tailwindcss
+```
 
-## Setup
+### 2. Configure Tailwind CSS
 
-Add to your tailwind.config.(js|ts):
+Add the brutal preset to your `tailwind.config.ts`. This injects all the necessary fonts, colors, and shadow utilities.
 
 ```ts
-/* ESM (Tailwind v4, recommended) */
+// tailwind.config.ts
+import type { Config } from "tailwindcss";
 import brutalPreset from "@brutalcomponent/react/tailwind-preset";
-/** @type {import('tailwindcss').Config} */
-export default {
+
+const config: Config = {
+  // Use the brutal preset
+  presets: [brutalPreset],
+
+  // Add paths to your files
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx,mdx}",
+    "./app/**/*.{js,jsx,ts,tsx,mdx}",
+    // Make sure to include the library's components
+    "./node_modules/@brutalcomponent/react/dist/**/*.{js,mjs}",
+  ],
+};
+
+export default config;
+```
+
+<details>
+<summary>Using CommonJS? (<code>tailwind.config.js</code>)</summary>
+
+```js
+const brutalPreset = require("@brutalcomponent/react/tailwind-preset");
+
+module.exports = {
   presets: [brutalPreset],
   content: [
     "./src/**/*.{js,jsx,ts,tsx,mdx}",
     "./app/**/*.{js,jsx,ts,tsx,mdx}",
-    "./components/**/*.{js,jsx,ts,tsx,mdx}",
-    "./pages/**/*.{js,jsx,ts,tsx,mdx}",
-    "./node_modules/@brutalcomponent/react/dist/**/*.{js,mjs}"
-  ]
-};
-
-/* CommonJS (if you need it) */
-module.exports = {
-  presets: [require("@brutalcomponent/react/tailwind-preset")],
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx,mdx}",
-    "./app/**/*.{js,jsx,ts,tsx,mdx}",
-    "./components/**/*.{js,jsx,ts,tsx,mdx}",
-    "./pages/**/*.{js,jsx,ts,tsx,mdx}",
-    "./node_modules/@brutalcomponent/react/dist/**/*.{js,mjs}"
-  ]
+    "./node_modules/@brutalcomponent/react/dist/**/*.{js,mjs}",
+  ],
 };
 ```
 
-## File Structure
+</details>
 
-> This visual is incomplete, and it's purpose is to serve as an example.
+### 3. Import Global Styles
 
+Import the library's base styles into your main CSS file (e.g., `app/globals.css`). This file includes keyframe animations and utility classes.
+
+```css
+/* app/globals.css */
+@import "@brutalcomponent/react/styles";
+@import "tailwindcss";
+
+/* Optional: Set a default brutal font for headings */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-mono;
+  }
+}
 ```
-@brutalcomponent/react/
-├─ package.json
-├─ tsconfig.json
-├─ tsup.config.ts
-├─ tailwind-preset.js
-├─ README.md (you are HERE)
-└─ src/
-   ├─ index.ts
-   │
-   ├─ components/
-   │  ├─ core/
-   │  │  ├─ index.ts
-   │  │  ├─ Text/
-   │  │  │  ├─ Text.tsx
-   │  │  │  └─ Heading.tsx
-   │  │  ├─ Button/
-   │  │  │  └─ Button.tsx
-   │  │  └─ Modal/
-   │  │     └─ Modal.tsx
-   │  │
-   │  ├─ motion/
-   │  │  ├─ index.ts
-   │  │  └─ MotionWrapper/
-   │  │     └─ MotionWrapper.tsx
-   │  │
-   │  └─ patterns/
-   │     ├─ index.ts
-   │     └─ FilterControls/
-   │        └─ FilterControls.tsx
-   │
-   ├─ modules/
-   │  ├─ blog/
-   │  │  ├─ index.ts
-   │  │  └─ PostHeader/
-   │  │     └─ PostHeader.tsx
-   │  ├─ commerce/
-   │  │  ├─ index.ts
-   │  │  └─ ProductCard/
-   │  │     └─ ProductCard.tsx
-   │  └─ legal/
-   │     ├─ index.ts
-   │     └─ PrivacyPolicy/
-   │        └─ PrivacyPolicy.tsx
-   │
-   ├─ hooks/
-   │  ├─ index.ts
-   │  └─ useClipboard.ts
-   │
-   ├─ providers/
-   │  ├─ index.ts
-   │  └─ ThemeProvider.tsx
-   │
-   ├─ utils/
-   │  ├─ index.ts
-   │  ├─ text.utils.ts
-   │  └─ date.utils.ts
-   │
-   └─ types/
-      ├─ index.ts
-      └─ common.types.ts
-```
+
+---
 
 ## Basic Usage
-```tsx
-import { Button, Card, Heading } from "@brutalcomponent/react";
 
-function App() {
+Start building with the core components. They are designed to be composed together easily.
+
+```tsx
+import { Button, Card, Heading, Text } from "@brutalcomponent/react";
+
+function MyBrutalApp() {
   return (
     <Card variant="raised" accent="pink">
       <Heading as="h1" skew="left">
         Brutal Design
       </Heading>
-      <Button variant="primary" brutal>
+      <Text>
+        This card uses the 'raised' variant with a 'pink' accent.
+      </Text>
+      <Button variant="primary" className="mt-4">
         Click Me
       </Button>
     </Card>
   );
 }
 ```
-## Tree-shaking and Subpath Imports
+
+## Advanced Usage & Imports
+
+The library is structured for optimal tree-shaking. You can import from the root or use subpaths for specific modules.
+
 ```tsx
-// Core (root or core both tree-shakeable)
-import { Button } from "@brutalcomponent/react";
-import { Card } from "@brutalcomponent/react/core";
+// Import core components (tree-shakeable)
+import { Button, Card } from "@brutalcomponent/react";
+import { Table } from "@brutalcomponent/react/core";
 
-// Modules (use subpath imports)
+// Import from feature-specific modules
+import { TOTPSetup } from "@brutalcomponent/react/auth";
 import { BlogCard } from "@brutalcomponent/react/blog";
-import { ProductCard } from "@brutalcomponent/react/commerce";
 import { PrivacyPolicy } from "@brutalcomponent/react/legal";
+
+// Import hooks and utilities
+import { useClipboard } from "@brutalcomponent/react/hooks";
+import { cn, formatDate } from "@brutalcomponent/react/utils";
 ```
-## Hooks
 
--  useClipboard — Copy to clipboard with feedback
--  useClickOutside — Detect clicks outside element
--  useDebounce — Debounce values
--  useLocalStorage — Persist state to localStorage
--  useMediaQuery — Responsive media queries
--  useBreakpoint — Responsive breakpoint helpers
--  useKeyPress — Keyboard shortcut handling
--  useFocusTrap — Trap focus for modals
-
-## Utilities
-
--  Text: slugify, truncate, capitalize, emphasizeText
--  Date: formatDate, formatRelativeTime, formatDuration, parseLooseDate, addDays
--  Validation: validateEmail, validatePhone, validatePassword, validateUsername
--  Format: formatCurrency, formatPhone, formatFileSize, formatNumber, formatPercentage, formatCreditCard
--  Tech: getTechIcon, normalizeTechName
--  Classnames: cn
-
-## Theming
-
-Monochrome core palette with soft pastel accents. Tokens are exposed via Tailwind preset (recommended).  
-If you need raw CSS variables, the preset provides:
-```css
---brutal-white, --brutal-black, --brutal-gray-50 … --brutal-gray-900  
---brutal-pink, --brutal-peach, --brutal-yellow, --brutal-mint, --brutal-sky, --brutal-lavender, --brutal-coral
-```
 ## Icons
 
-We use react-icons for flexibility:
+The library uses `react-icons` for flexibility. Pass the icon component directly as a prop.
+
 ```tsx
 import { Button } from "@brutalcomponent/react";
 import { FaRocket } from "react-icons/fa";
 
-<Button leftIcon={FaRocket}>Launch</Button>;
+// Note: For some components, the API expects a render function,
+// e.g., leftIcon={() => <FaRocket />}
+<Button leftIcon={FaRocket}>Launch</Button>
 ```
+
 ## TypeScript
 
-Full TypeScript support with exported types:
+Full TypeScript support with exported types for all components and props.
+
 ```tsx
 import type { ButtonProps, CardProps } from "@brutalcomponent/react";
+
 const MyButton: React.FC<ButtonProps> = (props) => <Button {...props} />;
 ```
-## Accessibility
-
-All components follow WCAG 2.1 guidelines:
--  Proper ARIA labels and roles
--  Keyboard navigation support
--  Focus trap for modals
--  Screen reader announcements
--  High contrast color ratios
 
 ## License
 
 MIT © David Heffler (https://dvh.sh)
-
 

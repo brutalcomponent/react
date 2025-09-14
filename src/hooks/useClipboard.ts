@@ -9,6 +9,7 @@
  * @description
  * Hook for clipboard operations with feedback
  */
+"use client";
 import { useState, useCallback } from "react";
 
 export interface UseClipboardOptions {

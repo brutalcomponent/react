@@ -8,7 +8,9 @@
  *
  * @description
  * Brutal textarea component with auto-resize and character counting
+ * @client
  */
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import { cn, getSizeClasses, getAccentClasses } from "../../../utils/cn.utils";
 import type { TextareaProps } from "./types";
