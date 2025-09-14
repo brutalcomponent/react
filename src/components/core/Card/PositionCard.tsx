@@ -51,7 +51,7 @@ export const PositionCard: React.FC<PositionCardProps> = ({
         // Base styling - match original exactly
         "bg-brutal-surface0 p-6 shadow-md hover:shadow-lg transition-shadow duration-300",
         "transform -skew-x-2 border-l-4 border-accent",
-        
+
         className,
       )}
     >
@@ -59,17 +59,19 @@ export const PositionCard: React.FC<PositionCardProps> = ({
         <h3 className="text-3xl font-bold text-accent mb-1 uppercase tracking-wide">
           {company}
         </h3>
-        <span className="text-lg text-brutal-gray-600 font-mono">{dateRange}</span>
+        <span className="text-lg text-brutal-gray-600 font-mono">
+          {dateRange}
+        </span>
       </div>
-      
+
       <h4 className="text-2xl font-semibold text-brutal-gray-700 mb-3 transform skew-x-2">
         {position}
       </h4>
-      
+
       <p className="text-brutal-gray-700 mb-4 text-base font-mono leading-relaxed">
         {description}
       </p>
-      
+
       <div className="flex flex-wrap gap-2 mb-4">
         {technologies.map((tech, idx) => (
           <Badge key={idx} size="sm" variant="secondary" brutal={brutal}>
@@ -77,7 +79,7 @@ export const PositionCard: React.FC<PositionCardProps> = ({
           </Badge>
         ))}
       </div>
-      
+
       {companyLink && (
         <a
           href={companyLink}

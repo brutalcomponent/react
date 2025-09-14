@@ -4,15 +4,24 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * Blog card component for displaying post previews with metadata.
+ * Blog card component for displaying post previews with metadata
+ * Matches original dvh.sh styling exactly
  */
 import React from "react";
-import { clsx } from "clsx";
-import { Icon, FaCalendar, FaClock, FaEye, FaArrowRight } from "../Icon";
+import {
+  FaArrowRight,
+  FaBook,
+  FaCalendarAlt,
+  FaEye,
+  FaGlobe,
+  FaUtensils,
+} from "react-icons/fa";
+import { Icon } from "../Icon";
 import { Badge } from "../Badge";
+import { cn } from "../../../utils/cn.utils";
 
 export interface BlogCardProps {
   title: string;
@@ -22,6 +31,8 @@ export interface BlogCardProps {
   views?: number;
   readingTime?: string;
   tags?: string[];
+  origin?: string;
+  type?: string;
   brutal?: boolean;
   accentColor?: string;
   className?: string;
@@ -35,103 +46,97 @@ export const BlogCard: React.FC<BlogCardProps> = ({
   views,
   readingTime,
   tags,
+  origin,
+  type,
   brutal = true,
   accentColor = "brutal-pink",
   className,
 }) => {
+  const isCooking = origin && type;
+
   return (
-    <a
-      href={href}
-      className={clsx(
-        "block group relative overflow-hidden p-6",
-        brutal
-          ? "bg-brutal-white border-4 border-brutal-black shadow-brutal"
-          : "bg-brutal-white border border-brutal-gray-300 shadow-md",
-        brutal &&
-          "hover:shadow-brutal-md hover:-translate-x-0.5 hover:-translate-y-0.5",
-        brutal && "hover:scale-[1.02] hover:-rotate-1",
-        `border-l-8 border-l-${accentColor}`,
-        "transition-all duration-300",
+    <div
+      className={cn(
+        // Base styling - match original exactly
+        "bg-brutal-surface0 p-6 shadow-lg flex flex-col h-full relative overflow-hidden",
+        "border-l-4 border-accent transition-all duration-300",
+        "hover:scale-[1.03] hover:-rotate-1",
+
         className,
       )}
     >
-      {/* Hover accent */}
-      {brutal && (
-        <div
-          className={clsx(
-            "absolute top-0 right-0 w-16 h-16 opacity-10 rounded-full -mr-8 -mt-8",
-            "group-hover:scale-150 transition-transform duration-300",
-            `bg-${accentColor}`,
+      <div className="flex flex-col mb-4">
+        <h3 className="text-2xl font-bold text-accent mb-2 uppercase tracking-wide">
+          {title}
+        </h3>
+        <div className="flex items-center text-brutal-gray-600 space-x-4 text-sm flex-wrap">
+          <div className="flex items-center">
+            <Icon icon={FaCalendarAlt} size="xs" className="mr-1" />
+            <span>{new Date(date).toLocaleDateString()}</span>
+          </div>
+          {readingTime && (
+            <div className="flex items-center">
+              <Icon icon={FaBook} size="xs" className="mr-1" />
+              <span>~{readingTime} min</span>
+            </div>
           )}
-        />
-      )}
-
-      {/* Title */}
-      <h3
-        className={clsx(
-          "text-2xl font-black uppercase tracking-wider mb-2",
-          "text-brutal-black group-hover:text-brutal-pink transition-colors",
-        )}
-      >
-        {title}
-      </h3>
-
-      {/* Metadata */}
-      <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-mono text-brutal-gray-600 mb-4">
-        <span className="flex items-center gap-1">
-          <Icon icon={FaCalendar} size="xs" />
-          {new Date(date).toLocaleDateString()}
-        </span>
-        {readingTime && (
-          <span className="flex items-center gap-1">
-            <Icon icon={FaClock} size="xs" />~{readingTime} min
-          </span>
-        )}
-        {views !== undefined && (
-          <span className="flex items-center gap-1">
-            <Icon icon={FaEye} size="xs" />
-            {views.toLocaleString()} views
-          </span>
-        )}
+          {views !== undefined && (
+            <div className="flex items-center">
+              <Icon icon={FaEye} size="xs" className="mr-1" />
+              <span>{views} views</span>
+            </div>
+          )}
+          {origin && (
+            <div className="flex items-center">
+              <Icon icon={FaGlobe} size="xs" className="mr-1" />
+              <span>{origin}</span>
+            </div>
+          )}
+          {type && (
+            <div className="flex items-center">
+              <Icon icon={FaUtensils} size="xs" className="mr-1" />
+              <span>{type}</span>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Excerpt */}
-      <p className="text-brutal-gray-700 mb-4 font-mono text-sm leading-relaxed line-clamp-3">
+      <p className="text-brutal-gray-700 mb-4 flex-grow font-mono text-sm">
         {excerpt}
       </p>
 
-      {/* Tags */}
       {tags && tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-4">
-          {tags.map((tag) => (
-            <Badge key={tag} size="xs" variant="secondary" brutal={brutal}>
+          {tags.map((tag, idx) => (
+            <Badge key={idx} size="xs" variant="secondary" brutal={brutal}>
               {tag}
             </Badge>
           ))}
         </div>
       )}
 
-      {/* Read more */}
-      <div
-        className={clsx(
-          "flex items-center gap-2 font-bold uppercase tracking-wider text-sm",
-          "text-brutal-black group-hover:text-brutal-pink transition-all",
-        )}
+      <a
+        href={isCooking ? `/cooking/${href}` : `/blog/${href}`}
+        className="text-brutal-sky hover:text-accent transition-colors duration-200 flex items-center group self-start"
       >
-        <span>Read more</span>
+        <span className="mr-2 uppercase tracking-wide font-bold">
+          Read more
+        </span>
         <Icon
           icon={FaArrowRight}
           size="sm"
-          className="transform transition-transform group-hover:translate-x-2"
+          className="transition-transform duration-300 group-hover:translate-x-2"
         />
-      </div>
-    </a>
+      </a>
+
+      <div className="absolute top-0 right-0 w-16 h-16 bg-accent opacity-10 rounded-full -mr-8 -mt-8"></div>
+    </div>
   );
 };
 
 /**
  * @component BlogCardSkeleton
- * @description Skeleton loader for BlogCard.
+ * @description Skeleton loader for BlogCard
  */
 export const BlogCardSkeleton: React.FC<{
   className?: string;
@@ -139,29 +144,34 @@ export const BlogCardSkeleton: React.FC<{
   brutal?: boolean;
 }> = ({ className, accentColor = "brutal-pink", brutal = true }) => (
   <div
-    className={clsx(
-      "p-6 animate-pulse",
-      brutal
-        ? "bg-brutal-white border-4 border-brutal-black shadow-brutal"
-        : "bg-brutal-white border border-brutal-gray-300 shadow-md",
-      `border-l-8 border-l-${accentColor}`,
+    className={cn(
+      "bg-brutal-surface0 p-6 shadow-lg flex flex-col h-full relative overflow-hidden",
+      "border-l-4 border-accent transition-all duration-300 animate-pulse",
       className,
     )}
   >
-    <div className="h-8 bg-brutal-gray-200 rounded w-3/4 mb-2" />
-    <div className="flex gap-4 mb-4">
-      <div className="h-4 bg-brutal-gray-200 rounded w-20" />
-      <div className="h-4 bg-brutal-gray-200 rounded w-16" />
-      <div className="h-4 bg-brutal-gray-200 rounded w-16" />
+    <div className="flex flex-col mb-4">
+      <div className="h-6 bg-accent mb-2 w-3/4"></div>
+      <div className="flex items-center text-brutal-gray-600 space-x-4 text-sm flex-wrap">
+        <div className="flex items-center">
+          <div className="h-4 bg-brutal-gray-600 w-16 mr-1"></div>
+        </div>
+        <div className="flex items-center">
+          <div className="h-4 bg-brutal-gray-600 w-12 mr-1"></div>
+        </div>
+        <div className="flex items-center">
+          <div className="h-4 bg-brutal-gray-600 w-16 mr-1"></div>
+        </div>
+      </div>
     </div>
-    <div className="space-y-2 mb-4">
-      <div className="h-4 bg-brutal-gray-200 rounded" />
-      <div className="h-4 bg-brutal-gray-200 rounded w-5/6" />
+    <div className="text-brutal-gray-700 mb-4 flex-grow font-mono text-sm">
+      <div className="h-4 bg-brutal-gray-700 w-full mb-2"></div>
+      <div className="h-4 bg-brutal-gray-700 w-5/6 mb-2"></div>
+      <div className="h-4 bg-brutal-gray-700 w-4/6"></div>
     </div>
-    <div className="flex flex-wrap gap-2 mb-4">
-      <div className="h-5 bg-brutal-gray-200 rounded w-12" />
-      <div className="h-5 bg-brutal-gray-200 rounded w-16" />
+    <div className="text-brutal-sky hover:text-accent transition-colors duration-200 flex items-center group self-start">
+      <div className="h-4 bg-brutal-sky w-24"></div>
     </div>
-    <div className="h-6 bg-brutal-gray-200 rounded w-24" />
+    <div className="absolute top-0 right-0 w-16 h-16 bg-accent opacity-10 rounded-full -mr-8 -mt-8"></div>
   </div>
 );

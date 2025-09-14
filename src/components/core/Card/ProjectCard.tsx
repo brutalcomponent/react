@@ -52,7 +52,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         // Base styling - match original exactly
         "relative bg-brutal-surface0 border-4 border-accent p-6 shadow-brutal",
         "overflow-hidden flex flex-col h-full",
-        
+
         className,
       )}
     >
@@ -63,7 +63,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       <p className="text-brutal-gray-700 mb-4 font-mono text-sm leading-relaxed flex-grow">
         {highlightedDescription.map((segment, idx) =>
           segment.bold ? (
-            <strong key={idx} className="font-black text-brutal-pink inline-block">
+            <strong
+              key={idx}
+              className="font-black text-brutal-pink inline-block"
+            >
               {segment.text}
             </strong>
           ) : (

@@ -4,26 +4,53 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Shared type definitions for Input components
  */
-import type { InputHTMLAttributes, SelectHTMLAttributes } from "react";
+import type {
+  InputHTMLAttributes,
+  SelectHTMLAttributes,
+  TextareaHTMLAttributes,
+} from "react";
 import type { IconType } from "react-icons";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface BaseInputProps {
   label?: string;
   error?: string;
   hint?: string;
-  leftIcon?: IconType;
-  rightIcon?: IconType;
   brutal?: boolean;
+  size?: "xs" | "sm" | "md" | "lg";
+  variant?: "default" | "ghost" | "filled";
+  required?: boolean;
+  accentColor?: string;
 }
 
-export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
-  error?: string;
-  options: { value: string; label: string }[];
-  brutal?: boolean;
+export interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size">,
+    BaseInputProps {
+  leftIcon?: IconType;
+  rightIcon?: IconType;
+  showPasswordToggle?: boolean;
+}
+
+export interface SelectOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+export interface SelectProps
+  extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "size">,
+    BaseInputProps {
+  options: SelectOption[];
+  placeholder?: string;
+}
+
+export interface TextareaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement>,
+    BaseInputProps {
+  autoResize?: boolean;
+  showCharacterCount?: boolean;
 }

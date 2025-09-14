@@ -4,10 +4,10 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * Shared type definitions for Tooltip components
+ * Enhanced type definitions for Tooltip components
  */
 import type { ReactNode } from "react";
 
@@ -16,6 +16,13 @@ export interface TooltipProps {
   children: ReactNode;
   position?: "top" | "bottom" | "left" | "right";
   delay?: number;
+  hideDelay?: number;
   brutal?: boolean;
+  size?: "xs" | "sm" | "md" | "lg";
+  variant?: "default" | "error" | "success" | "warning" | "info" | "accent";
+  animated?: boolean;
+  disabled?: boolean;
+  trigger?: "hover" | "click" | "focus" | "both";
+  accentColor?: string;
   className?: string;
 }

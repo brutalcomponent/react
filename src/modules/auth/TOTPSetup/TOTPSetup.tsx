@@ -4,7 +4,7 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * TOTP (2FA) setup component
@@ -12,13 +12,13 @@
  */
 "use client";
 
-import React, { useState } from "react";
-import { clsx } from "clsx";
-import { FaKey, FaCopy, FaCheck } from "react-icons/fa";
+import React, { useState, useCallback } from "react";
+import { FaCopy, FaCheck } from "react-icons/fa";
 import { Icon } from "../../../components/core/Icon";
 import { QRCode } from "../QRCode/QRCode";
 import { TOTPVerifier } from "../TOTPVerifier/TOTPVerifier";
 import { useClipboard } from "../../../hooks/useClipboard";
+import { cn, getSizeClasses } from "../../../utils/cn.utils";
 
 export interface TOTPSetupProps {
   qrCodeData: string; // SVG or data URL
@@ -26,6 +26,8 @@ export interface TOTPSetupProps {
   appName?: string;
   onVerified: (code: string) => void;
   brutal?: boolean;
+  size?: "xs" | "sm" | "md" | "lg";
+  accentColor?: string;
   className?: string;
 }
 
@@ -35,24 +37,49 @@ export const TOTPSetup: React.FC<TOTPSetupProps> = ({
   appName = "Your App",
   onVerified,
   brutal = true,
+  size = "md",
+  accentColor = "brutal-pink",
   className,
 }) => {
   const [step, setStep] = useState<"scan" | "verify">("scan");
   const { copy, copied } = useClipboard({ timeout: 2000 });
+  const sizeClasses = getSizeClasses(size);
 
-  const handleVerification = (code: string) => {
-    onVerified(code);
-  };
+  const handleVerification = useCallback(
+    (code: string) => {
+      onVerified(code);
+    },
+    [onVerified],
+  );
 
   return (
     <div
-      className={clsx(
-        brutal &&
-          "p-6 bg-brutal-white border-4 border-brutal-black shadow-brutal",
+      className={cn(
+        brutal
+          ? "p-6 bg-brutal-white border-4 border-brutal-black shadow-brutal"
+          : "p-4 bg-white border rounded-lg shadow",
         className,
       )}
+      style={
+        {
+          "--accent-color": accentColor.startsWith("#")
+            ? accentColor
+            : `var(--brutal-${accentColor.replace("brutal-", "")})`,
+        } as React.CSSProperties
+      }
     >
-      <h2 className="text-2xl font-black uppercase tracking-wider mb-6">
+      <h2
+        className={cn(
+          "font-black uppercase tracking-wider mb-6",
+          size === "xs"
+            ? "text-xl"
+            : size === "sm"
+              ? "text-2xl"
+              : size === "md"
+                ? "text-2xl"
+                : "text-3xl",
+        )}
+      >
         Set Up Two-Factor Authentication
       </h2>
 
@@ -61,8 +88,20 @@ export const TOTPSetup: React.FC<TOTPSetupProps> = ({
           <div className="space-y-6">
             {/* Step 1 */}
             <div>
-              <h3 className="text-lg font-bold mb-2">Step 1: Scan QR Code</h3>
-              <p className="text-sm text-brutal-gray-600 mb-4">
+              <h3
+                className={cn(
+                  "font-bold mb-2",
+                  size === "xs" ? "text-base" : "text-lg",
+                )}
+              >
+                Step 1: Scan QR Code
+              </h3>
+              <p
+                className={cn(
+                  "text-brutal-gray-600 mb-4",
+                  sizeClasses.text === "text-xs" ? "text-xs" : "text-sm",
+                )}
+              >
                 Scan this QR code with your authenticator app (Google
                 Authenticator, Authy, etc.)
               </p>
@@ -79,27 +118,45 @@ export const TOTPSetup: React.FC<TOTPSetupProps> = ({
 
             {/* Step 2 - Manual entry */}
             <div>
-              <h3 className="text-lg font-bold mb-2">
+              <h3
+                className={cn(
+                  "font-bold mb-2",
+                  size === "xs" ? "text-base" : "text-lg",
+                )}
+              >
                 Step 2: Or Enter Code Manually
               </h3>
-              <p className="text-sm text-brutal-gray-600 mb-4">
+              <p
+                className={cn(
+                  "text-brutal-gray-600 mb-4",
+                  sizeClasses.text === "text-xs" ? "text-xs" : "text-sm",
+                )}
+              >
                 Can't scan? Enter this code in your authenticator app:
               </p>
 
               <div className="flex items-center gap-2">
                 <div
-                  className={clsx(
-                    "flex-1 p-3 font-mono text-sm",
-                    "bg-brutal-gray-100 border-2 border-brutal-black",
+                  className={cn(
+                    "flex-1 font-mono",
+                    sizeClasses.text === "text-xs"
+                      ? "text-xs p-2.5"
+                      : "text-sm p-3",
+                    brutal
+                      ? "bg-brutal-gray-100 border-2 border-brutal-black"
+                      : "bg-brutal-gray-100 border rounded",
                   )}
                 >
                   {secret}
                 </div>
                 <button
                   onClick={() => copy(secret)}
-                  className={clsx(
-                    "p-3 border-2 border-brutal-black",
-                    "hover:bg-brutal-gray-100 transition-colors",
+                  className={cn(
+                    "transition-colors",
+                    sizeClasses.text === "text-xs" ? "p-2.5" : "p-3",
+                    brutal
+                      ? "border-2 border-brutal-black hover:bg-brutal-gray-100"
+                      : "border rounded hover:bg-brutal-gray-100",
                   )}
                   aria-label="Copy secret"
                 >
@@ -107,7 +164,12 @@ export const TOTPSetup: React.FC<TOTPSetupProps> = ({
                 </button>
               </div>
 
-              <p className="mt-2 text-xs text-brutal-gray-600">
+              <p
+                className={cn(
+                  "mt-2 text-brutal-gray-600",
+                  sizeClasses.text === "text-xs" ? "text-xs" : "text-xs",
+                )}
+              >
                 Account: {appName}
               </p>
             </div>
@@ -115,13 +177,13 @@ export const TOTPSetup: React.FC<TOTPSetupProps> = ({
 
           <button
             onClick={() => setStep("verify")}
-            className={clsx(
-              "mt-6 w-full",
-              "px-4 py-3 font-bold uppercase tracking-wider",
-              "bg-brutal-black text-brutal-white",
-              "hover:bg-brutal-gray-800 transition-colors",
-              brutal && "shadow-brutal hover:shadow-brutal-md",
+            className={cn(
+              "mt-6 w-full px-4 py-3 font-black uppercase tracking-wider transition-colors",
+              brutal
+                ? "bg-brutal-black text-brutal-white hover:bg-brutal-gray-800 shadow-brutal hover:shadow-brutal-md"
+                : "bg-black text-white rounded hover:bg-gray-800",
             )}
+            aria-label="Continue to verification"
           >
             Continue to Verification
           </button>
@@ -130,7 +192,12 @@ export const TOTPSetup: React.FC<TOTPSetupProps> = ({
         <>
           <button
             onClick={() => setStep("scan")}
-            className="mb-4 text-sm font-bold text-brutal-pink hover:text-brutal-peach"
+            className={cn(
+              "mb-4 font-black",
+              sizeClasses.text === "text-xs" ? "text-xs" : "text-sm",
+              "text-accent hover:text-brutal-black transition-colors",
+            )}
+            aria-label="Back to QR Code"
           >
             ← Back to QR Code
           </button>

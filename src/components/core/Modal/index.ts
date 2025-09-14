@@ -4,10 +4,10 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Modal components barrel export
  */
-export { Modal } from "./Modal";
-export type { ModalProps } from "./types";
+export { Modal, ConfirmModal } from "./Modal";
+export type { ConfirmModalProps } from "./Modal";

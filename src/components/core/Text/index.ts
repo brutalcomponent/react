@@ -4,13 +4,14 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * Text components barrel export
+ * Text components barrel export - NOTE: Heading moved to separate module
  */
-export { Text } from "./Text";
-export { Heading } from "./Heading";
-export { AnimatedHeading } from "./AnimatedHeading";
-export { WavyTitle } from "./WavyTitle";
-export type { TextProps, HeadingProps, WavyTitleProps } from "./types";
+export { Text, BrutalText } from "./Text";
+export { WavyTitle, GlitchTitle } from "./WavyTitle";
+export { TextSkeleton, WavyTitleSkeleton } from "./TextSkeleton";
+
+export type { TextProps, WavyTitleProps } from "./types";
+export type { TextSkeletonProps } from "./TextSkeleton";

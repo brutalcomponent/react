@@ -3,12 +3,17 @@
  * @author David (https://dvh.sh)
  * @license MIT
  *
- * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @created Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Code components barrel export
  */
 export { Code } from "./Code";
+export { CodeBlock } from "./CodeBlock";
+export { CodeSkeleton } from "./CodeSkeleton";
 export { InlineCode } from "./InlineCode";
-export type { CodeProps, InlineCodeProps } from "./types";
+
+export type { CodeProps } from "./Code";
+export type { CodeBlockProps } from "./CodeBlock";
+export type { CodeSkeletonProps } from "./CodeSkeleton";

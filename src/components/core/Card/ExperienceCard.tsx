@@ -72,7 +72,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
         "relative bg-brutal-surface0 p-6 shadow-brutal border-4 overflow-hidden",
         "border-accent", // Use CSS variable for theming
         "transition-all duration-300",
-        
+
         className,
       )}
     >
@@ -125,7 +125,10 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
         <p className="text-sm text-brutal-gray-700 mb-4 leading-relaxed">
           {highlightedDescription.map((segment, idx) =>
             segment.bold ? (
-              <strong key={idx} className="font-black text-brutal-pink inline-block">
+              <strong
+                key={idx}
+                className="font-black text-brutal-pink inline-block"
+              >
                 {segment.text}
               </strong>
             ) : (
@@ -146,7 +149,10 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
               <span>
                 {bulletSegments.map((segment, segIdx) =>
                   segment.bold ? (
-                    <strong key={segIdx} className="font-black text-brutal-pink inline-block">
+                    <strong
+                      key={segIdx}
+                      className="font-black text-brutal-pink inline-block"
+                    >
                       {segment.text}
                     </strong>
                   ) : (

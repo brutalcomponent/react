@@ -4,7 +4,7 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * A generic, reusable set of controls for searching, sorting, and filtering data.
@@ -12,12 +12,11 @@
  */
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { clsx } from "clsx";
-import { Input } from "../../core/Input";
-import { Select } from "../../core/Input";
+import React, { useState, useMemo, useCallback } from "react";
+import { cn, getSizeClasses } from "../../../utils/cn.utils";
+import { Input, Select } from "../../core/Input";
 import { Button } from "../../core/Button";
-import { Icon, FaSearch, FaSort, FaFilter, FaTimes } from "../../core/Icon";
+import { Icon, FaSearch, FaFilter, FaTimes } from "../../core/Icon";
 
 export interface SortOption {
   value: string;
@@ -43,6 +42,8 @@ export interface FilterControlsProps {
   resultsCount?: number;
   totalCount?: number;
   brutal?: boolean;
+  size?: "xs" | "sm" | "md" | "lg";
+  accentColor?: string;
   className?: string;
 }
 
@@ -53,6 +54,8 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   resultsCount,
   totalCount,
   brutal = true,
+  size = "md",
+  accentColor = "brutal-pink",
   className,
 }) => {
   const [search, setSearch] = useState("");
@@ -62,27 +65,39 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   );
   const [showFilters, setShowFilters] = useState(false);
 
+  const sizeClasses = getSizeClasses(size);
+
   const hasActiveFilters = useMemo(() => {
-    return search || Object.values(activeFilters).some((v) => v);
+    return Boolean(search) || Object.values(activeFilters).some((v) => v);
   }, [search, activeFilters]);
 
-  const handleApply = () => {
+  const handleApply = useCallback(() => {
     onApplyFilters({ search, sort: sortBy, filters: activeFilters });
-  };
+  }, [onApplyFilters, search, sortBy, activeFilters]);
 
-  const handleClear = () => {
+  const handleClear = useCallback(() => {
+    const resetSort = sortOptions[0]?.value || "";
     setSearch("");
-    setSortBy(sortOptions[0]?.value || "");
+    setSortBy(resetSort);
     setActiveFilters({});
     onApplyFilters({
       search: "",
-      sort: sortOptions[0]?.value || "",
+      sort: resetSort,
       filters: {},
     });
-  };
+  }, [onApplyFilters, sortOptions]);
 
   return (
-    <div className={clsx("space-y-4", className)}>
+    <div
+      className={cn("space-y-4", className)}
+      style={
+        {
+          "--accent-color": accentColor.startsWith("#")
+            ? accentColor
+            : `var(--brutal-${accentColor.replace("brutal-", "")})`,
+        } as React.CSSProperties
+      }
+    >
       {/* Search Bar */}
       <Input
         type="text"
@@ -92,6 +107,9 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
         onKeyDown={(e) => e.key === "Enter" && handleApply()}
         leftIcon={FaSearch}
         brutal={brutal}
+        size={size}
+        accentColor={accentColor}
+        aria-label="Search"
       />
 
       {/* Controls Row */}
@@ -102,18 +120,26 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
           onChange={(e) => setSortBy(e.target.value)}
           options={sortOptions}
           brutal={brutal}
+          size={size}
+          accentColor={accentColor}
           className="flex-shrink-0"
+          aria-label="Sort by"
         />
 
         {/* Filter Toggle */}
         {filterDefinitions.length > 0 && (
           <Button
             variant="secondary"
-            size="md"
-            onClick={() => setShowFilters(!showFilters)}
+            size={size}
+            onClick={() => setShowFilters((v) => !v)}
             leftIcon={() => <FaFilter />}
             brutal={brutal}
-            className={showFilters ? "bg-brutal-black text-brutal-white" : ""}
+            aria-pressed={showFilters}
+            aria-label="Toggle filters"
+            className={cn(
+              showFilters &&
+                "bg-brutal-black text-brutal-white border-brutal-black",
+            )}
           >
             Filters
           </Button>
@@ -121,9 +147,10 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
 
         <Button
           variant="primary"
-          size="md"
+          size={size}
           onClick={handleApply}
           brutal={brutal}
+          aria-label="Apply filters"
         >
           Apply
         </Button>
@@ -131,10 +158,11 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
         {hasActiveFilters && (
           <Button
             variant="danger"
-            size="md"
+            size={size}
             onClick={handleClear}
             leftIcon={() => <FaTimes />}
             brutal={brutal}
+            aria-label="Clear filters"
           >
             Clear
           </Button>
@@ -142,7 +170,12 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
 
         {/* Results Count */}
         {resultsCount !== undefined && totalCount !== undefined && (
-          <div className="flex-1 text-right font-mono text-xs text-brutal-gray-600">
+          <div
+            className={cn(
+              "ml-auto font-mono text-brutal-gray-600",
+              sizeClasses.text === "text-xs" ? "text-xs" : "text-sm",
+            )}
+          >
             Showing {resultsCount} of {totalCount}
           </div>
         )}
@@ -151,12 +184,14 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
       {/* Expanded Filters */}
       {showFilters && filterDefinitions.length > 0 && (
         <div
-          className={clsx(
+          className={cn(
             "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4",
             brutal
               ? "bg-brutal-gray-50 border-2 border-dashed border-brutal-black"
-              : "bg-brutal-gray-50 rounded-lg",
+              : "bg-brutal-gray-50 rounded-lg border",
           )}
+          role="region"
+          aria-label="Additional filters"
         >
           {filterDefinitions.map((filter) => (
             <Select
@@ -174,6 +209,9 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
                 ...filter.options,
               ]}
               brutal={brutal}
+              size={size}
+              accentColor={accentColor}
+              aria-label={`Filter by ${filter.label}`}
             />
           ))}
         </div>

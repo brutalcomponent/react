@@ -4,58 +4,116 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * Icon component barrel export with common icons
+ * Icon component barrel export with common icons and variants
  */
-export { Icon } from "./Icon";
+export { Icon, BrutalIcon, SpinningIcon, AnimatedIcon } from "./Icon";
 export type { IconProps } from "./types";
 
-// Common icons
+// Common icons - organized by category
 export {
+  // Navigation
   FaArrowLeft,
   FaArrowRight,
-  FaCalendarAlt as FaCalendar,
-  FaClock,
-  FaEye,
-  FaGlobe,
-  FaUtensils,
+  FaChevronRight,
+  FaChevronDown,
+  FaChevronLeft,
+  FaChevronUp,
+  FaBars,
+  FaTimes,
   FaHome,
-  FaGithub,
-  FaLinkedin,
-  FaEnvelope,
-  FaExternalLinkAlt,
-  FaDownload,
-  FaTag,
-  FaSync,
+
+  // Actions
   FaPlus,
   FaTrash,
   FaEdit,
+  FaCopy,
+  FaDownload,
+  FaUpload,
+  FaSync,
+  FaSearch,
+  FaFilter,
+  FaSort,
+
+  // Status & Feedback
   FaCheck,
   FaExclamationTriangle,
   FaInfoCircle,
   FaTimesCircle,
-  FaSearch,
-  FaFilter,
-  FaSort,
-  FaCopy,
-  FaCamera,
-  FaUpload,
-  FaBars,
-  FaTimes,
-  FaChevronRight,
-  FaChevronDown,
+  FaCheckCircle,
+  FaQuestionCircle,
+
+  // Content
+  FaEye,
+  FaEyeSlash,
+  FaHeart,
+  FaFileAlt,
+  FaImage,
+  FaCode,
+  FaTag,
+  FaCalendarAlt as FaCalendar,
+  FaClock,
+
+  // Communication
+  FaEnvelope,
   FaPhone,
+  FaComment,
+  FaShare,
+
+  // Social & External
+  FaGithub,
+  FaLinkedin,
+  FaTwitter,
+  FaFacebook,
+  FaInstagram,
+  FaExternalLinkAlt,
+  FaGlobe,
+
+  // Business & Location
   FaBuilding,
   FaBriefcase,
   FaMapMarkerAlt,
-  FaCode,
   FaShoppingCart,
-  FaHeart,
-  FaFileAlt,
+  FaUtensils,
+
+  // User & Security
   FaUser,
+  FaUsers,
   FaLock,
+  FaUnlock,
   FaKey,
-  FaEyeSlash,
+
+  // Media & Files
+  FaCamera,
+  FaVideo,
+  FaMusic,
+  FaFile,
+  FaFilePdf,
+  FaFileWord,
+  FaFileExcel,
+
+  // Settings & Tools
+  FaCog,
+  FaTools,
+  FaWrench,
 } from "react-icons/fa";
+
+// Additional icons from other packs
+export {
+  // More modern icons from Heroicons style
+  HiOutlineSparkles,
+  HiOutlineLightningBolt,
+  HiOutlineFire,
+} from "react-icons/hi";
+
+export {
+  // Simple icons for brands/tech
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiJavascript,
+  SiNodedotjs,
+  SiTailwindcss,
+} from "react-icons/si";

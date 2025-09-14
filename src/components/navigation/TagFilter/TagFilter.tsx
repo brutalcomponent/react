@@ -4,15 +4,15 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Generic tag filter component for any content type
  */
 import React from "react";
-import { clsx } from "clsx";
 import { FaTag, FaTimes } from "react-icons/fa";
 import { Icon } from "../../core/Icon";
+import { cn, getSizeClasses } from "../../../utils/cn.utils";
 
 export interface TagFilterProps {
   tags: string[];
@@ -24,6 +24,8 @@ export interface TagFilterProps {
   showCount?: boolean;
   tagCounts?: Record<string, number>;
   brutal?: boolean;
+  size?: "xs" | "sm" | "md" | "lg";
+  accentColor?: string;
   className?: string;
 }
 
@@ -37,14 +39,17 @@ export const TagFilter: React.FC<TagFilterProps> = ({
   showCount = false,
   tagCounts,
   brutal = true,
+  size = "md",
+  accentColor = "brutal-pink",
   className,
 }) => {
+  const sizeClasses = getSizeClasses(size);
+
   const handleTagClick = (tag: string) => {
     if (selectedTags.includes(tag)) {
       if (multiSelect && onTagDeselect) {
         onTagDeselect(tag);
       } else if (!multiSelect) {
-        // In single select, clicking selected tag clears it
         onTagSelect("");
       }
     } else {
@@ -53,7 +58,16 @@ export const TagFilter: React.FC<TagFilterProps> = ({
   };
 
   return (
-    <div className={clsx("space-y-4", className)}>
+    <div
+      className={cn("space-y-4", className)}
+      style={
+        {
+          "--accent-color": accentColor.startsWith("#")
+            ? accentColor
+            : `var(--brutal-${accentColor.replace("brutal-", "")})`,
+        } as React.CSSProperties
+      }
+    >
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => {
           const isSelected = selectedTags.includes(tag);
@@ -63,11 +77,13 @@ export const TagFilter: React.FC<TagFilterProps> = ({
             <button
               key={tag}
               onClick={() => handleTagClick(tag)}
-              className={clsx(
-                "px-4 py-2 font-bold uppercase tracking-wider text-sm",
+              className={cn(
+                "px-4 py-2 font-black uppercase tracking-wider",
+                sizeClasses.text,
                 "transition-all duration-200",
-                brutal && "border-2 border-brutal-black",
-                !brutal && "border border-brutal-gray-300",
+                brutal
+                  ? "border-2 border-brutal-black"
+                  : "border border-brutal-gray-300 rounded",
                 isSelected
                   ? [
                       "bg-brutal-black text-brutal-white",
@@ -80,6 +96,7 @@ export const TagFilter: React.FC<TagFilterProps> = ({
                         "hover:shadow-brutal hover:transform hover:-rotate-1",
                     ],
               )}
+              aria-pressed={isSelected}
             >
               <Icon icon={FaTag} size="xs" className="inline mr-2" />
               {tag}
@@ -94,10 +111,11 @@ export const TagFilter: React.FC<TagFilterProps> = ({
       {selectedTags.length > 0 && onClear && (
         <button
           onClick={onClear}
-          className={clsx(
+          className={cn(
             "flex items-center gap-2",
-            "text-sm font-bold text-brutal-gray-600",
-            "hover:text-brutal-black transition-colors",
+            "font-black uppercase tracking-wider",
+            sizeClasses.text === "text-xs" ? "text-xs" : "text-sm",
+            "text-brutal-gray-600 hover:text-brutal-black transition-colors",
           )}
         >
           <Icon icon={FaTimes} size="sm" />

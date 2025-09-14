@@ -16,8 +16,7 @@ import React, { useState } from "react";
 import { clsx } from "clsx";
 import { FaEnvelope, FaUser, FaPhone, FaBuilding } from "react-icons/fa";
 import { Input } from "../../core/Input";
-import { Textarea } from "../../core/Textarea";
-import { Select } from "../../core/Input";
+import { Select, Textarea } from "../../core/Input";
 import { Button } from "../../core/Button";
 
 export interface ContactFormProps {

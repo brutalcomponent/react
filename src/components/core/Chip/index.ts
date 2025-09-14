@@ -4,16 +4,15 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Chip components barrel export
  */
 export { Chip } from "./Chip";
-export type { ChipProps } from "./Chip";
-
-export { ChipGroup } from "./ChipGroup";
-export type { ChipGroupProps } from "./ChipGroup";
-
 export { TechChip, TechChipGroup } from "./TechChip";
+export { ChipGroup, ChipGroupSkeleton } from "./ChipGroup";
+
+export type { ChipProps } from "./Chip";
 export type { TechChipProps, TechChipGroupProps } from "./TechChip";
+export type { ChipGroupProps, ChipGroupSkeletonProps } from "./ChipGroup";

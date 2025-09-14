@@ -4,7 +4,7 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Sidebar navigation component with mobile support
@@ -13,7 +13,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { clsx } from "clsx";
+import { cn } from "../../../utils/cn.utils";
 import { Icon, FaBars, FaTimes } from "../../core/Icon";
 
 export interface SidebarProps {
@@ -23,6 +23,7 @@ export interface SidebarProps {
   footer?: React.ReactNode;
   defaultOpen?: boolean;
   overlay?: boolean;
+  brutal?: boolean;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -32,6 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   footer,
   defaultOpen = true,
   overlay = true,
+  brutal = true,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [isMobile, setIsMobile] = useState(false);
@@ -50,10 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, [defaultOpen]);
 
-  // Prevent hydration issues
-  if (!mounted) {
-    return null;
-  }
+  if (!mounted) return null;
 
   return (
     <>
@@ -61,12 +60,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {isMobile && (
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={clsx(
-            "fixed top-4 left-4 z-50 p-2",
-            "bg-brutal-white border-4 border-brutal-black shadow-brutal",
-            "hover:shadow-brutal-md hover:-translate-x-0.5 hover:-translate-y-0.5",
+          className={cn(
+            "fixed top-4 left-4 z-50 p-2 md:hidden",
+            brutal
+              ? "bg-brutal-white border-4 border-brutal-black shadow-brutal hover:shadow-brutal-md hover:-translate-x-0.5 hover:-translate-y-0.5"
+              : "bg-white border shadow",
             "transition-all duration-200",
-            "md:hidden",
           )}
           aria-label={isOpen ? "Close sidebar" : "Open sidebar"}
         >
@@ -80,20 +79,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Sidebar */}
       <aside
-        className={clsx(
-          "fixed top-0 left-0 h-screen w-64",
-          "bg-gradient-to-br from-brutal-white to-brutal-gray-50",
-          "border-r-4 border-brutal-black",
-          "transform transition-transform duration-300 z-40",
+        className={cn(
+          "fixed top-0 left-0 h-screen w-64 z-40",
           "flex flex-col",
-          "shadow-brutal-lg",
+          brutal
+            ? "bg-gradient-to-br from-brutal-white to-brutal-gray-50 border-r-4 border-brutal-black shadow-brutal-lg"
+            : "bg-white border-r shadow-lg",
+          "transform transition-transform duration-300",
           isOpen ? "translate-x-0" : "-translate-x-full",
           className,
         )}
       >
         {/* Logo area */}
         {logo && (
-          <div className="p-4 border-b-4 border-brutal-black bg-brutal-black text-brutal-white">
+          <div
+            className={cn(
+              "p-4",
+              brutal
+                ? "border-b-4 border-brutal-black bg-brutal-black text-brutal-white"
+                : "border-b bg-black text-white",
+            )}
+          >
             {logo}
           </div>
         )}
@@ -105,15 +111,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Footer area */}
         {footer && (
-          <div className="p-4 border-t-4 border-brutal-black bg-brutal-gray-100">
+          <div
+            className={cn(
+              "p-4",
+              brutal
+                ? "border-t-4 border-brutal-black bg-brutal-gray-100"
+                : "border-t bg-gray-100",
+            )}
+          >
             {footer}
           </div>
         )}
 
-        {/* Noise texture overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-5">
-          <div className="w-full h-full bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter%20id=%22noiseFilter%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%220.65%22%20numOctaves=%223%22%20stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect%20width=%22100%25%22%20height=%22100%25%22%20filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')]" />
-        </div>
+        {/* Subtle overlay texture */}
+        {brutal && (
+          <div className="absolute inset-0 pointer-events-none opacity-5">
+            <div className="w-full h/full bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter%20id=%22noiseFilter%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%220.65%22%20numOctaves=%223%22%20stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect%20width=%22100%25%22%20height=%22100%25%22%20filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')]" />
+          </div>
+        )}
       </aside>
 
       {/* Mobile backdrop */}
@@ -128,19 +143,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   );
 };
 
-/**
- * @component SidebarSkeleton
- * @description Skeleton loader for Sidebar
- * @client Uses React hooks (useState, useEffect, etc.)
- */
 export const SidebarSkeleton: React.FC = () => (
   <div className="w-64 h-screen bg-brutal-white border-r-4 border-brutal-black animate-pulse">
     <div className="p-4 border-b-4 border-brutal-black bg-brutal-black">
-      <div className="h-8 bg-brutal-gray-700 rounded" />
+      <div className="h-8 bg-brutal-gray-700" />
     </div>
     <div className="p-4 space-y-4">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="h-10 bg-brutal-gray-200 rounded" />
+        <div key={i} className="h-10 bg-brutal-gray-200" />
       ))}
     </div>
   </div>

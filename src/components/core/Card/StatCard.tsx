@@ -4,10 +4,10 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * Statistics card component for dashboards
+ * Statistics card component for dashboards with brutal styling
  * @client This component requires client-side JavaScript
  */
 "use client";
@@ -15,6 +15,7 @@
 import React from "react";
 import { clsx } from "clsx";
 import type { IconType } from "react-icons";
+import { cn } from "../../../utils/cn.utils";
 
 export interface StatCardProps {
   title: string;
@@ -31,7 +32,7 @@ export interface StatCardProps {
 
 /**
  * @component StatCard
- * @description Advanced statistics display card
+ * @description Brutal statistics display card
  */
 export const StatCard: React.FC<StatCardProps> = ({
   title,
@@ -83,22 +84,30 @@ export const StatCard: React.FC<StatCardProps> = ({
 
   return (
     <div
-      className={clsx(
-        "bg-brutal-white shadow-brutal",
+      className={cn(
+        // Base brutal styling
+        "bg-brutal-surface0 shadow-brutal",
         brutal && "border-4 border-brutal-black border-l-8",
         !brutal && "border border-brutal-gray-300",
         colorClasses[color],
         sizeClasses[size],
-        "hover:shadow-brutal-md transition-shadow duration-200",
+        "hover:shadow-brutal-md hover:-translate-y-0.5 transition-all duration-200",
+        "transform hover:rotate-0",
+        brutal && "-rotate-1",
         className,
       )}
     >
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1">
-          <p className="text-xs font-bold uppercase text-brutal-gray-600 tracking-wider mb-2">
+          <p className="text-xs font-black uppercase text-brutal-gray-600 tracking-wider mb-2 transform skew-x-1">
             {title}
           </p>
-          <p className={clsx("font-black text-brutal-black", valueSizes[size])}>
+          <p
+            className={cn(
+              "font-black text-brutal-black transform -skew-x-2",
+              valueSizes[size],
+            )}
+          >
             {format === "currency" && "$"}
             {typeof value === "number" ? value.toLocaleString() : value}
             {format === "percentage" && "%"}
@@ -107,31 +116,38 @@ export const StatCard: React.FC<StatCardProps> = ({
 
         {Icon && (
           <div
-            className={clsx(
-              "p-2",
-              brutal && "bg-brutal-gray-100 border-2 border-brutal-black",
+            className={cn(
+              "p-2 transform rotate-3",
+              brutal &&
+                "bg-brutal-gray-100 border-2 border-brutal-black shadow-brutal-sm",
               !brutal && "bg-brutal-gray-100 rounded",
             )}
           >
-            <Icon className="w-6 h-6" />
+            <Icon className="w-6 h-6 text-brutal-gray-700" />
           </div>
         )}
       </div>
 
       {/* Change indicator */}
       {change !== null && (
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-2">
           <span
-            className={clsx(
-              "text-sm font-bold",
-              change >= 0 ? "text-brutal-mint" : "text-brutal-coral",
+            className={cn(
+              "text-sm font-black uppercase tracking-wider px-2 py-1",
+              brutal && "border-2 border-brutal-black shadow-brutal-sm",
+              change >= 0
+                ? "bg-brutal-mint text-brutal-black"
+                : "bg-brutal-coral text-brutal-black",
             )}
           >
             {change >= 0 ? "+" : ""}
             {change.toFixed(1)}%
           </span>
-          <span className="text-xs text-brutal-gray-500">
-            from {previousValue}
+          <span className="text-xs text-brutal-gray-500 font-mono">
+            from{" "}
+            {typeof previousValue === "number"
+              ? previousValue.toLocaleString()
+              : previousValue}
           </span>
         </div>
       )}

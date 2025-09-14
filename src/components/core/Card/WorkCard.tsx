@@ -4,17 +4,18 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Client work showcase card with technology display
+ * Matches original dvh.sh styling exactly
  */
 import React, { Fragment } from "react";
-import { clsx } from "clsx";
 import { FaExternalLinkAlt, FaCode, FaCalendar } from "react-icons/fa";
 import { Icon } from "../Icon";
 import { Badge } from "../Badge";
 import { emphasizeText } from "../../../utils/text.utils";
+import { cn } from "../../../utils/cn.utils";
 
 export interface WorkCardProps {
   title: string;
@@ -45,30 +46,30 @@ export const WorkCard: React.FC<WorkCardProps> = ({
 }) => {
   const highlightedDescription = emphasizeText(shortDescription, keywords);
 
+  // Normalize technologies array
+  const normalizedTechs = Array.isArray(technologies)
+    ? technologies.map((tech) => tech.toLowerCase())
+    : [];
+
+  const safeLink =
+    link && typeof link === "string" && link.startsWith("http")
+      ? link
+      : `https://${String(link ?? "")}`;
+
   return (
     <div
-      className={clsx(
-        "relative overflow-hidden",
-        brutal
-          ? "bg-brutal-white border-4 border-brutal-black p-6 shadow-brutal"
-          : "bg-brutal-white border border-brutal-gray-300 p-6 shadow-md",
-        brutal &&
-          "hover:shadow-brutal-md hover:-translate-x-0.5 hover:-translate-y-0.5",
-        "hover:rotate-0 transition-all duration-300",
-        brutal && "transform rotate-1",
+      className={cn(
+        // Base styling - match original exactly
+        "relative bg-brutal-surface0 border-4 border-accent p-6 shadow-brutal overflow-hidden",
+        "transform rotate-1 hover:rotate-0 hover:scale-1.02 hover:translate-x-1.5",
+        "transition-all duration-300",
+
         className,
       )}
     >
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-3">
         <div>
-          <h3
-            className={clsx(
-              "text-2xl font-black uppercase tracking-wider",
-              `text-${accentColor}`,
-              brutal && "transform -skew-x-6",
-            )}
-          >
+          <h3 className="text-2xl font-black text-accent uppercase tracking-wider transform -skew-x-6">
             {title}
           </h3>
           {client && (
@@ -83,13 +84,12 @@ export const WorkCard: React.FC<WorkCardProps> = ({
         </div>
       </div>
 
-      {/* Description */}
       <p className="text-brutal-gray-700 mb-4 font-mono text-sm leading-relaxed">
         {highlightedDescription.map((segment, idx) =>
           segment.bold ? (
             <strong
               key={idx}
-              className={clsx("font-black", `text-${accentColor}`)}
+              className="font-black text-brutal-pink inline-block"
             >
               {segment.text}
             </strong>
@@ -101,19 +101,12 @@ export const WorkCard: React.FC<WorkCardProps> = ({
 
       {/* Testimonial */}
       {testimonial && (
-        <blockquote
-          className={clsx(
-            "mb-4 p-3 italic",
-            "bg-brutal-gray-100 border-l-4",
-            `border-${accentColor}`,
-          )}
-        >
+        <blockquote className="mb-4 p-3 italic bg-brutal-gray-100 border-l-4 border-accent">
           <p className="text-sm text-brutal-gray-700">"{testimonial}"</p>
         </blockquote>
       )}
 
-      {/* Technologies */}
-      {technologies.length > 0 && (
+      {normalizedTechs.length > 0 && (
         <div className="mb-5">
           <div className="flex items-center gap-2 mb-2">
             <Icon icon={FaCode} size="xs" className="text-brutal-gray-600" />
@@ -122,7 +115,7 @@ export const WorkCard: React.FC<WorkCardProps> = ({
             </span>
           </div>
           <div className="flex flex-wrap gap-2">
-            {technologies.map((tech, idx) => (
+            {normalizedTechs.map((tech, idx) => (
               <Badge key={idx} size="xs" variant="secondary" brutal={brutal}>
                 {tech}
               </Badge>
@@ -131,20 +124,12 @@ export const WorkCard: React.FC<WorkCardProps> = ({
         </div>
       )}
 
-      {/* Link */}
       {link && (
         <a
-          href={link}
+          href={safeLink}
           target="_blank"
           rel="noopener noreferrer"
-          className={clsx(
-            "inline-flex items-center gap-2 font-black uppercase tracking-wider",
-            "px-3 py-2 transition-all duration-200",
-            brutal && "border-2 shadow-brutal hover:shadow-brutal-md",
-            !brutal && "border",
-            "text-brutal-black border-brutal-black bg-transparent",
-            "hover:bg-brutal-black hover:text-brutal-white",
-          )}
+          className="inline-flex items-center gap-2 text-accent font-black uppercase tracking-wider px-3 py-2 border-2 border-accent bg-transparent shadow-brutal hover:bg-accent hover:text-brutal-black transition-colors"
         >
           Live Demo
           <Icon icon={FaExternalLinkAlt} size="sm" />
@@ -152,14 +137,7 @@ export const WorkCard: React.FC<WorkCardProps> = ({
       )}
 
       {/* Decorative corner */}
-      {brutal && (
-        <div
-          className={clsx(
-            "absolute top-0 right-0 w-16 h-16 opacity-10 -mr-8 -mt-8",
-            `bg-${accentColor}`,
-          )}
-        />
-      )}
+      <div className="absolute top-0 right-0 w-16 h-16 bg-accent opacity-10 -mr-8 -mt-8" />
     </div>
   );
 };

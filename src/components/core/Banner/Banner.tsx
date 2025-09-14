@@ -4,10 +4,10 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * Generic, dismissible banner component. Requires motion for animations.
+ * Generic, dismissible banner component with brutal styling
  * @client This component requires client-side JavaScript
  */
 "use client";
@@ -16,6 +16,7 @@ import React from "react";
 import { clsx } from "clsx";
 import { FaTimes } from "react-icons/fa";
 import { Icon } from "../Icon";
+import { cn } from "../../../utils/cn.utils";
 
 // Attempt to use motion, but gracefully degrade
 let motion: any;
@@ -61,32 +62,32 @@ export const Banner: React.FC<BannerProps> = ({
   };
 
   const variantColors = {
-    default: "border-brutal-black",
-    info: "border-brutal-sky",
-    success: "border-brutal-mint",
-    warning: "border-brutal-yellow",
-    danger: "border-brutal-coral",
+    default: "border-brutal-black bg-brutal-surface0",
+    info: "border-brutal-sky bg-brutal-sky",
+    success: "border-brutal-mint bg-brutal-mint",
+    warning: "border-brutal-yellow bg-brutal-yellow",
+    danger: "border-brutal-coral bg-brutal-coral",
   };
 
   const animationVariants = {
     "bottom-right": {
       initial: { x: 400, rotate: 5 },
-      animate: { x: 0, rotate: 0 },
+      animate: { x: 0, rotate: 1 },
       exit: { x: 400, rotate: -5 },
     },
     "bottom-left": {
       initial: { x: -400, rotate: -5 },
-      animate: { x: 0, rotate: 0 },
+      animate: { x: 0, rotate: -1 },
       exit: { x: -400, rotate: 5 },
     },
     "top-right": {
       initial: { x: 400, rotate: -5 },
-      animate: { x: 0, rotate: 0 },
+      animate: { x: 0, rotate: 1 },
       exit: { x: 400, rotate: 5 },
     },
     "top-left": {
       initial: { x: -400, rotate: 5 },
-      animate: { x: 0, rotate: 0 },
+      animate: { x: 0, rotate: -1 },
       exit: { x: -400, rotate: -5 },
     },
   };
@@ -95,38 +96,39 @@ export const Banner: React.FC<BannerProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className={clsx("fixed z-50 max-w-sm", positionClasses[position])}
+          className={cn("fixed z-50 max-w-sm", positionClasses[position])}
           initial={animationVariants[position].initial}
           animate={animationVariants[position].animate}
           exit={animationVariants[position].exit}
-          transition={{ type: "spring", damping: 20 }}
+          transition={{ type: "spring", damping: 20, stiffness: 300 }}
         >
           <motion.div
-            className={clsx(
-              "relative p-4",
+            className={cn(
+              "relative p-4 text-brutal-black",
               brutal
-                ? "bg-brutal-white border-4 shadow-brutal"
-                : "bg-brutal-white border rounded-lg shadow-lg",
+                ? "border-4 shadow-brutal-lg"
+                : "border rounded-lg shadow-lg",
               variantColors[variant],
               className,
             )}
-            whileHover={brutal ? { rotate: -1, scale: 1.02 } : {}}
+            whileHover={brutal ? { rotate: 0, scale: 1.02 } : {}}
           >
             {closeButton && (
               <button
                 onClick={onClose}
-                className={clsx(
-                  "absolute -top-2 -right-2 p-1",
+                className={cn(
+                  "absolute -top-2 -right-2 p-1.5",
                   "bg-brutal-black text-brutal-white",
                   brutal &&
-                    "shadow-brutal hover:scale-110 transition-transform",
+                    "shadow-brutal-sm hover:shadow-brutal hover:scale-110 transition-all",
+                  brutal && "border-2 border-brutal-white",
                 )}
                 aria-label="Dismiss"
               >
                 <Icon icon={FaTimes} size="xs" />
               </button>
             )}
-            {children}
+            <div className="font-mono">{children}</div>
           </motion.div>
         </motion.div>
       )}

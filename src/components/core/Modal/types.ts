@@ -4,21 +4,25 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * Shared type definitions for Modal components
  */
-import type { ReactNode } from "react";
+import type { ReactNode, HTMLAttributes } from "react";
 
-export interface ModalProps {
+export interface ModalProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   children: ReactNode;
   footer?: ReactNode;
-  size?: "sm" | "md" | "lg" | "xl" | "full";
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "full";
+  variant?: "default" | "success" | "warning" | "danger" | "info";
   brutal?: boolean;
   closeOnBackdrop?: boolean;
-  className?: string;
+  closeOnEscape?: boolean;
+  animated?: boolean;
+  accentColor?: string;
 }

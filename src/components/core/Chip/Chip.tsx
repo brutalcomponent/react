@@ -4,16 +4,16 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * Base chip component for tags and labels
+ * Base chip component for tags and labels with brutal styling
  */
 import React from "react";
-import { clsx } from "clsx";
 import type { IconType } from "react-icons";
 import { FaTimes } from "react-icons/fa";
 import { Icon } from "../Icon";
+import { cn, getSizeClasses } from "../../../utils/cn.utils";
 
 export interface ChipProps {
   children: React.ReactNode;
@@ -23,7 +23,8 @@ export interface ChipProps {
     | "secondary"
     | "success"
     | "warning"
-    | "danger";
+    | "danger"
+    | "ghost";
   size?: "xs" | "sm" | "md" | "lg";
   icon?: IconType;
   iconPosition?: "left" | "right";
@@ -32,9 +33,14 @@ export interface ChipProps {
   brutal?: boolean;
   selected?: boolean;
   disabled?: boolean;
+  accentColor?: string;
   className?: string;
 }
 
+/**
+ * @component Chip
+ * @description Brutal chip component for tags, labels, and selections
+ */
 export const Chip: React.FC<ChipProps> = ({
   children,
   variant = "default",
@@ -46,25 +52,11 @@ export const Chip: React.FC<ChipProps> = ({
   brutal = true,
   selected = false,
   disabled = false,
+  accentColor = "brutal-pink",
   className,
 }) => {
   const Component = onClick ? "button" : "span";
-
-  const variantClasses = {
-    default: "bg-brutal-gray-100 text-brutal-black border-brutal-black",
-    primary: "bg-brutal-black text-brutal-white border-brutal-black",
-    secondary: "bg-brutal-white text-brutal-black border-brutal-black",
-    success: "bg-brutal-mint text-brutal-black border-brutal-black",
-    warning: "bg-brutal-yellow text-brutal-black border-brutal-black",
-    danger: "bg-brutal-coral text-brutal-black border-brutal-black",
-  };
-
-  const sizeClasses = {
-    xs: "px-2 py-0.5 text-xs gap-1",
-    sm: "px-2.5 py-1 text-sm gap-1.5",
-    md: "px-3 py-1.5 text-sm gap-2",
-    lg: "px-4 py-2 text-base gap-2",
-  };
+  const sizeClasses = getSizeClasses(size);
 
   const iconSizes = {
     xs: "xs" as const,
@@ -75,32 +67,69 @@ export const Chip: React.FC<ChipProps> = ({
 
   return (
     <Component
-      className={clsx(
-        "inline-flex items-center font-bold uppercase tracking-wider",
+      className={cn(
+        // Base styling
+        "inline-flex items-center font-black uppercase tracking-wider",
         "transition-all duration-200",
-        brutal ? "border-2" : "border",
-        sizeClasses[size],
-        variantClasses[variant],
-        selected && [
-          "bg-brutal-black text-brutal-white",
-          brutal && "shadow-brutal transform -rotate-2",
+
+        // Size classes
+        sizeClasses.padding,
+        sizeClasses.text,
+        "gap-1.5",
+
+        // Brutal styling
+        brutal && [
+          sizeClasses.border,
+          "border-brutal-black",
+          sizeClasses.shadow,
         ],
+        !brutal && "border rounded-md",
+
+        // Variant styling
+        variant === "default" && "bg-brutal-gray-100 text-brutal-black",
+        variant === "primary" && "bg-brutal-black text-brutal-white",
+        variant === "secondary" && "bg-brutal-white text-brutal-black",
+        variant === "success" && "bg-brutal-mint text-brutal-black",
+        variant === "warning" && "bg-brutal-yellow text-brutal-black",
+        variant === "danger" && "bg-brutal-coral text-brutal-black",
+        variant === "ghost" &&
+          "bg-transparent text-brutal-black border-brutal-black",
+
+        // Selected state
+        selected && [
+          "bg-accent text-brutal-black",
+          brutal && "shadow-brutal transform -rotate-1",
+        ],
+
+        // Interactive states
         onClick &&
           !disabled && [
             "cursor-pointer",
-            "hover:shadow-brutal hover:transform hover:-rotate-1",
+            brutal &&
+              "hover:shadow-brutal-md hover:transform hover:-rotate-0.5",
+            !brutal && "hover:shadow-md hover:scale-105",
           ],
+
+        // Disabled state
         disabled && "opacity-50 cursor-not-allowed",
+
         className,
       )}
       onClick={!disabled ? onClick : undefined}
       disabled={Component === "button" ? disabled : undefined}
+      style={
+        {
+          "--accent-color": accentColor.startsWith("#")
+            ? accentColor
+            : `var(--brutal-${accentColor.replace("brutal-", "")})`,
+        } as React.CSSProperties
+      }
     >
       {IconComponent && iconPosition === "left" && (
         <Icon icon={IconComponent} size={iconSizes[size]} />
       )}
 
-      {children}
+      <span className="select-none">{children}</span>
 
       {IconComponent && iconPosition === "right" && !onRemove && (
         <Icon icon={IconComponent} size={iconSizes[size]} />
@@ -112,11 +141,12 @@ export const Chip: React.FC<ChipProps> = ({
             e.stopPropagation();
             onRemove();
           }}
-          className={clsx(
-            "ml-1 -mr-1 hover:bg-brutal-black/10 rounded p-0.5",
-            "transition-colors duration-200",
+          className={cn(
+            "ml-1 -mr-1 p-0.5 transition-colors duration-200",
+            "hover:bg-brutal-black/10 rounded",
+            brutal && "hover:bg-accent/20",
           )}
-          aria-label="Remove"
+          aria-label="Remove chip"
         >
           <Icon icon={FaTimes} size="xs" />
         </button>

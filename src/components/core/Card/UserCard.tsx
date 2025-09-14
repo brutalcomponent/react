@@ -4,16 +4,17 @@
  * @license MIT
  *
  * @created Fri Sep 12 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
  * User profile card with rotating titles
+ * Matches original dvh.sh styling exactly
  * @client This component requires client-side JavaScript
  */
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { clsx } from "clsx";
+import { cn } from "../../../utils/cn.utils";
 
 export interface UserCardProps {
   name: string;
@@ -58,36 +59,13 @@ export const UserCard: React.FC<UserCardProps> = ({
   }, [titles.length, rotationInterval]);
 
   return (
-    <div
-      className={clsx(
-        "text-center",
-        variant === "detailed" && [
-          brutal
-            ? "bg-brutal-white border-4 border-brutal-black p-6 shadow-brutal"
-            : "bg-brutal-white border border-brutal-gray-300 p-6 shadow-md",
-        ],
-        className,
-      )}
-    >
+    <div className={cn("text-center mb-8", className)}>
       <div className="relative mx-auto mb-4 w-32 h-32 group">
         {/* Animated background accent */}
-        <div
-          className={clsx(
-            "absolute inset-0 rounded-full animate-pulse opacity-30",
-            `bg-${accentColor}`,
-          )}
-        />
+        <div className="absolute inset-0 bg-accent opacity-30 rounded-full animate-pulse" />
 
         {/* Avatar */}
-        <div
-          className={clsx(
-            "relative rounded-full overflow-hidden",
-            brutal
-              ? "border-4 border-brutal-black shadow-brutal"
-              : "border-2 border-brutal-gray-300",
-            "group-hover:shadow-brutal-md transition-all duration-300",
-          )}
-        >
+        <div className="relative rounded-full overflow-hidden border-4 border-accent shadow-brutal group-hover:shadow-brutal-md transition-all duration-300">
           {!isImageLoaded && (
             <div className="w-full h-full bg-brutal-gray-200 animate-pulse" />
           )}
@@ -97,7 +75,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             width={128}
             height={128}
             onLoad={() => setIsImageLoaded(true)}
-            className={clsx(
+            className={cn(
               "w-full h-full object-cover",
               "group-hover:scale-110 transition-transform duration-300",
               !isImageLoaded && "invisible",
@@ -107,13 +85,7 @@ export const UserCard: React.FC<UserCardProps> = ({
       </div>
 
       {/* Name */}
-      <h3
-        className={clsx(
-          "text-xl font-black mb-2 uppercase tracking-widest",
-          brutal &&
-            "transform hover:-skew-x-6 transition-transform duration-200",
-        )}
-      >
+      <h3 className="text-xl font-black mb-2 text-brutal-gray-700 uppercase tracking-widest transform hover:-skew-x-6 transition-transform duration-200">
         {name}
       </h3>
 
@@ -154,13 +126,7 @@ export const UserCard: React.FC<UserCardProps> = ({
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={clsx(
-                "inline-flex items-center gap-1 px-3 py-1",
-                "text-xs font-bold uppercase tracking-wider",
-                brutal && "border-2 border-brutal-black",
-                !brutal && "border border-brutal-gray-300",
-                "hover:bg-brutal-black hover:text-brutal-white transition-colors",
-              )}
+              className="inline-flex items-center gap-1 px-3 py-1 text-xs font-bold uppercase tracking-wider border-2 border-brutal-black hover:bg-brutal-black hover:text-brutal-white transition-colors"
             >
               {link.icon}
               {link.label}

@@ -11,11 +11,6 @@
  */
 export { Sidebar, SidebarSkeleton, type SidebarProps } from "./Sidebar/Sidebar";
 export { Nav, type NavProps, type NavItem } from "./Nav/Nav";
-export {
-  NavLink,
-  MobileMenu,
-  type NavLinkProps,
-  type MobileMenuProps,
-} from "./NavLink/NavLink";
-export { Footer, type FooterProps, type FooterLink } from "./Footer/Footer";
+export { NavLink, type NavLinkProps } from "./NavLink/NavLink";
 export { TagFilter, type TagFilterProps } from "./TagFilter/TagFilter";
+export { MobileMenu, type MobileMenuProps } from "./Nav/MobileMenu";

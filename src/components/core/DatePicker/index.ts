@@ -3,11 +3,16 @@
  * @author David (https://dvh.sh)
  * @license MIT
  *
- * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @created Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * DatePicker component barrel export
+ * DatePicker components barrel export
  */
 export { DatePicker } from "./DatePicker";
+export { DateRangePicker } from "./DateRangePicker";
+export { DatePickerSkeleton } from "./DatePickerSkeleton";
+
 export type { DatePickerProps } from "./DatePicker";
+export type { DateRangePickerProps, DateRange } from "./DateRangePicker";
+export type { DatePickerSkeletonProps } from "./DatePickerSkeleton";

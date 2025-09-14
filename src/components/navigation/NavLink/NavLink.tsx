@@ -4,13 +4,13 @@
  * @license MIT
  *
  * @created Thu Sep 11 2025
- * @updated Fri Sep 12 2025
+ * @updated Sat Sep 13 2025
  *
  * @description
- * Navigation link component with active state
+ * Navigation link component with active state and optional icon
  */
 import React from "react";
-import { clsx } from "clsx";
+import { cn } from "../../../utils/cn.utils";
 import type { IconType } from "react-icons";
 
 export interface NavLinkProps {
@@ -19,8 +19,10 @@ export interface NavLinkProps {
   active?: boolean;
   icon?: IconType;
   external?: boolean;
+  brutal?: boolean;
   className?: string;
   onClick?: (e: React.MouseEvent) => void;
+  accentColor?: string;
 }
 
 export const NavLink: React.FC<NavLinkProps> = ({
@@ -29,8 +31,10 @@ export const NavLink: React.FC<NavLinkProps> = ({
   active = false,
   icon: Icon,
   external = false,
+  brutal = true,
   className,
   onClick,
+  accentColor = "brutal-pink",
 }) => {
   const linkProps = external
     ? {
@@ -43,62 +47,29 @@ export const NavLink: React.FC<NavLinkProps> = ({
     <a
       href={href}
       onClick={onClick}
-      className={clsx(
+      className={cn(
         "flex items-center gap-2 px-4 py-2",
-        "font-bold uppercase tracking-wider text-sm",
+        "font-black uppercase tracking-wider text-sm",
         "transition-all duration-200",
         active
           ? ["bg-brutal-black text-brutal-white", "transform -skew-x-3"]
           : [
               "text-brutal-black hover:bg-brutal-gray-100",
-              "hover:transform hover:-skew-x-3",
+              brutal && "hover:transform hover:-skew-x-3",
             ],
         className,
       )}
+      style={
+        {
+          "--accent-color": accentColor.startsWith("#")
+            ? accentColor
+            : `var(--brutal-${accentColor.replace("brutal-", "")})`,
+        } as React.CSSProperties
+      }
       {...linkProps}
     >
       {Icon && <Icon className="w-5 h-5" />}
       {children}
     </a>
-  );
-};
-
-export interface MobileMenuProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  className?: string;
-}
-
-export const MobileMenu: React.FC<MobileMenuProps> = ({
-  isOpen,
-  onClose,
-  children,
-  className,
-}) => {
-  if (!isOpen) return null;
-
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-brutal-black/50 z-40 md:hidden"
-        onClick={onClose}
-      />
-
-      {/* Menu */}
-      <div
-        className={clsx(
-          "fixed top-0 right-0 h-full w-64 z-50",
-          "bg-brutal-white border-l-4 border-brutal-black",
-          "transform transition-transform duration-300",
-          "shadow-brutal-xl",
-          isOpen ? "translate-x-0" : "translate-x-full",
-          className,
-        )}
-      >
-        <div className="p-4 overflow-y-auto h-full">{children}</div>
-      </div>
-    </>
   );
 };
