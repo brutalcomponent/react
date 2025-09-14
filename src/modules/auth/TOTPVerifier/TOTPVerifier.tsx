@@ -120,6 +120,13 @@ export const TOTPVerifier: React.FC<TOTPVerifierProps> = ({
   };
   const box = getBoxSize();
 
+  // Fix the ref callback to return void
+  const setInputRef = useCallback((index: number) => {
+    return (el: HTMLInputElement | null) => {
+      inputRefs.current[index] = el;
+    };
+  }, []);
+
   return (
     <div
       className={cn(className)}
@@ -155,7 +162,7 @@ export const TOTPVerifier: React.FC<TOTPVerifierProps> = ({
           {values.map((value, index) => (
             <input
               key={index}
-              ref={(el) => (inputRefs.current[index] = el)}
+              ref={setInputRef(index)}
               type="text"
               inputMode="numeric"
               value={value}

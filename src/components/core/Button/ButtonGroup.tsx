@@ -47,10 +47,11 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
             return React.cloneElement(child, { key: child.key || index });
           }
 
-          return React.cloneElement(child, {
+          const typedChild = child as React.ReactElement<any>;
+          return React.cloneElement(typedChild, {
             key: child.key || index,
             className: clsx(
-              child.props.className,
+              typedChild.props.className,
               direction === "horizontal" && [
                 index === 0 && "rounded-r-none",
                 index === childCount - 1 && "rounded-l-none",
