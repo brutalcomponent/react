@@ -21,9 +21,9 @@ export * from "./Icon";
 // Chip components
 export * from "./Chip";
 
-// LoadingSpinner 
+// LoadingSpinner
 export { LoadingSpinner } from "./LoadingSpinner";
-export type { LoadingSpinnerProps } from "./Button/types"; 
+export type { LoadingSpinnerProps } from "./Button/types";
 
 // Modal
 export * from "./Modal";

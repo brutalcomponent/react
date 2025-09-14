@@ -30,12 +30,20 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
       className,
       disabled,
       required,
-      ...props
+      id,
+      name,
+      value,
+      checked,
+      defaultChecked,
+      onChange,
+      onFocus,
+      onBlur,
+      onClick,
+      ...restProps
     },
     ref,
   ) => {
     const sizeClasses = getSizeClasses(size);
-    const accentClasses = getAccentClasses(accentColor);
 
     const getRadioSize = () => {
       const sizes = {
@@ -90,6 +98,31 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
 
     const variantStyles = getVariantClasses();
 
+    // Only pass the props that are valid for input elements
+    const inputProps = {
+      id,
+      name,
+      value,
+      checked,
+      defaultChecked,
+      disabled,
+      required,
+      onChange,
+      onFocus,
+      onBlur,
+      onClick,
+      // Add other safe input props from restProps
+      ...(restProps.tabIndex !== undefined && { tabIndex: restProps.tabIndex }),
+      ...(restProps["aria-label"] && { "aria-label": restProps["aria-label"] }),
+      ...(restProps["aria-labelledby"] && {
+        "aria-labelledby": restProps["aria-labelledby"],
+      }),
+      ...(restProps["aria-describedby"] && {
+        "aria-describedby": restProps["aria-describedby"],
+      }),
+      ...(restProps.autoFocus && { autoFocus: restProps.autoFocus }),
+    };
+
     return (
       <label
         className={cn(
@@ -120,13 +153,11 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
           <input
             ref={ref}
             type="radio"
-            disabled={disabled}
-            required={required}
             className={cn(variant === "button" ? "sr-only" : "sr-only", "peer")}
             aria-describedby={
-              description ? `${props.id || "radio"}-description` : undefined
+              description ? `${id || "radio"}-description` : undefined
             }
-            {...props}
+            {...inputProps}
           />
 
           {/* Custom radio button (hidden for button variant) */}
@@ -200,7 +231,7 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
 
             {description && (
               <span
-                id={`${props.id || "radio"}-description`}
+                id={`${id || "radio"}-description`}
                 className={cn(
                   "block mt-1 text-brutal-gray-600 font-mono",
                   sizeClasses.text === "text-xs" ? "text-xs" : "text-sm",

@@ -26,7 +26,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export interface ButtonGroupProps {
-  children: React.ReactNode;
+  children: React.ReactElement | React.ReactElement[];
   className?: string;
   direction?: "horizontal" | "vertical";
   attached?: boolean;

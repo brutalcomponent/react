@@ -20,8 +20,12 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
   direction = "horizontal",
   attached = true,
 }) => {
-  const childrenArray = React.Children.toArray(children);
-  
+  // Convert children to array and filter valid elements
+  const childrenArray = Array.isArray(children) ? children : [children];
+  const validChildren = childrenArray.filter(
+    (child): child is React.ReactElement => React.isValidElement(child),
+  );
+
   return (
     <div
       className={clsx(
@@ -35,11 +39,13 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
         className,
       )}
     >
-      {childrenArray.map((child, index) => {
-        if (React.isValidElement(child) && child.type === Button) {
-          const childCount = childrenArray.length;
+      {validChildren.map((child, index) => {
+        if (child.type === Button) {
+          const childCount = validChildren.length;
 
-          if (!attached) return child;
+          if (!attached) {
+            return React.cloneElement(child, { key: child.key || index });
+          }
 
           return React.cloneElement(child, {
             key: child.key || index,
@@ -58,7 +64,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
             ),
           });
         }
-        return child;
+        return React.cloneElement(child, { key: child.key || index });
       })}
     </div>
   );

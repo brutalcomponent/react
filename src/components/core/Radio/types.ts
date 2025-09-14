@@ -9,8 +9,27 @@
  * @description
  * Shared type definitions for Radio components
  */
-export interface RadioProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
+
+interface SafeInputProps {
+  id?: string;
+  name?: string;
+  value?: string | number;
+  checked?: boolean;
+  defaultChecked?: boolean;
+  disabled?: boolean;
+  required?: boolean;
+  autoFocus?: boolean;
+  tabIndex?: number;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onClick?: React.MouseEventHandler<HTMLInputElement>;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
+  "aria-describedby"?: string;
+}
+
+export interface RadioProps extends SafeInputProps {
   label?: string;
   description?: string;
   brutal?: boolean;
@@ -18,6 +37,7 @@ export interface RadioProps
   variant?: "default" | "card" | "button";
   animated?: boolean;
   accentColor?: string;
+  className?: string;
 }
 
 export interface RadioOption {
